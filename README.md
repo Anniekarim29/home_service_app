@@ -1,11 +1,11 @@
-#  Home Service App
+# Home Service App
 
 A premium, modern Flutter application for booking home services with a stunning dark theme UI featuring neon accents, glassmorphism effects, and smooth animations.
 
 ![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
 ![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)
 
-##  Features
+## Features
 
 ### Premium UI/UX Design
 - **Dark Theme** with neon color accents (Purple, Blue, Green, Gold)
@@ -14,14 +14,14 @@ A premium, modern Flutter application for booking home services with a stunning 
 - **Bold typography** with Google Fonts (Poppins, Inter)
 - **Responsive layout** optimized for all screen sizes
 
-###  Core Functionality
+### Core Functionality
 - **Home Screen** with stats dashboard, featured services carousel, and quick actions
 - **Services Listing** with premium service cards
 - **Bookings Management** with status tracking and provider details
 - **Chat Interface** with online status indicators and unread message counts
 - **User Profile** with settings and account management
 
-###  Key Highlights
+### Key Highlights
 - Stats Dashboard (Bookings, Savings, Services Used)
 - Featured Services Carousel
 - Premium Category Cards with service counts
@@ -31,25 +31,16 @@ A premium, modern Flutter application for booking home services with a stunning 
 - Real-time booking status updates
 - Interactive chat with service providers
 
-##  Screenshots
+## Screenshots
 
-### Home Screen
-![Home Screen](assets/images/homescreen.png)
+<p align="center">
+  <img src="assets/images/homescreen.png" width="200" />
+  <img src="assets/images/homebookings.png" width="200" />
+  <img src="assets/images/homechat.png" width="200" />
+  <img src="assets/images/homeprofile.png" width="200" />
+</p>
 
-
-### Bookings
-![Bookings](assets/images/homebookings.png)
-
-
-### Chat
-![Chat](assets/images/homechat.png)
-
-
-### Profile
-![Profile](assets/images/homeprofile.png)
-*User profile with settings and neon glow effects*
-
-##  Tech Stack
+## Tech Stack
 
 - **Framework**: Flutter 3.x
 - **Language**: Dart
@@ -58,7 +49,7 @@ A premium, modern Flutter application for booking home services with a stunning 
 - **Fonts**: Google Fonts (Poppins, Inter)
 - **UI Components**: Custom widgets with premium styling
 
-##  Dependencies
+## Dependencies
 
 ```yaml
 dependencies:
@@ -66,37 +57,36 @@ dependencies:
     sdk: flutter
   google_fonts: ^6.1.0
   flutter_animate: ^4.5.0
-```
+Getting Started
+Prerequisites
+Flutter SDK (3.0 or higher)
 
-##  Getting Started
+Dart SDK (3.0 or higher)
 
-### Prerequisites
-- Flutter SDK (3.0 or higher)
-- Dart SDK (3.0 or higher)
-- Android Studio / VS Code
-- Android Emulator or Physical Device
+Android Studio / VS Code
 
-### Installation
+Android Emulator or Physical Device
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/home-service-app.git
-   cd home-service-app
-   ```
+Installation
+Clone the repository
 
-2. **Install dependencies**
-   ```bash
-   flutter pub get
-   ```
+bash
+Copy code
+git clone https://github.com/yourusername/home-service-app.git
+cd home-service-app
+Install dependencies
 
-3. **Run the app**
-   ```bash
-   flutter run
-   ```
+bash
+Copy code
+flutter pub get
+Run the app
 
-## 📁 Project Structure
-
-```
+bash
+Copy code
+flutter run
+📁 Project Structure
+graphql
+Copy code
 lib/
 ├── main.dart                 # App entry point
 ├── screens/
@@ -114,80 +104,111 @@ lib/
 │   └── glass_container.dart      # Glassmorphism container
 └── theme/
     └── app_theme.dart        # App-wide theme & colors
-```
+🎨 Design System
+Color Palette
+Background Dark: #000000 (Pure Black)
 
-## 🎨 Design System
+Surface Dark: #1E1E1E (Dark Grey)
 
-### Color Palette
-- **Background Dark**: `#000000` (Pure Black)
-- **Surface Dark**: `#1E1E1E` (Dark Grey)
-- **Neon Purple**: `#D500F9`
-- **Neon Blue**: `#00B0FF`
-- **Neon Green**: `#00E676`
-- **Gold Accent**: `#FFD700`
+Neon Purple: #D500F9
 
-### Typography
-- **Display**: Poppins Bold (24-36px)
-- **Body**: Poppins/Inter Regular (14-18px)
-- **Small**: Inter Regular (11-13px)
+Neon Blue: #00B0FF
 
-### Components
-- **Cards**: Dark surface with neon borders and glows
-- **Buttons**: Gradient backgrounds with shadows
-- **Icons**: Neon colored with glow effects
-- **Animations**: Staggered fade-in, slide, and scale
+Neon Green: #00E676
 
-## 🌟 Key Features Breakdown
+Gold Accent: #FFD700
 
-### Home Screen
-- User avatar with neon glow
-- Stats dashboard (3 cards)
-- Premium search bar with filter
-- 3D promo card with TRENDING badge
-- Premium category cards (5 categories)
-- Featured services carousel
-- Top-rated services (3 items)
-- Quick action buttons
-- Refer & earn section
+Typography
+Display: Poppins Bold (24-36px)
 
-### Bookings Screen
-- Filter tabs (All, Upcoming, Completed, Cancelled)
-- Booking cards with:
-  - Service icon with colored glow
-  - Provider name
-  - Date & time range
-  - Status badge
-  - Star rating
-  - Price display
+Body: Poppins/Inter Regular (14-18px)
 
-### Chat Screen
-- Search functionality
-- Chat tiles with:
-  - Avatar with gradient border
-  - Online status indicator
-  - Unread message count
-  - Last message preview
-  - Timestamp
+Small: Inter Regular (11-13px)
 
-### Profile Screen
-- Profile picture with neon glow
-- User information
-- Settings options
-- Logout functionality
+Components
+Cards: Dark surface with neon borders and glows
 
-## 🔧 Customization
+Buttons: Gradient backgrounds with shadows
 
-### Changing Colors
-Edit `lib/theme/app_theme.dart`:
-```dart
+Icons: Neon colored with glow effects
+
+Animations: Staggered fade-in, slide, and scale
+
+🌟 Key Features Breakdown
+Home Screen
+User avatar with neon glow
+
+Stats dashboard (3 cards)
+
+Premium search bar with filter
+
+3D promo card with TRENDING badge
+
+Premium category cards (5 categories)
+
+Featured services carousel
+
+Top-rated services (3 items)
+
+Quick action buttons
+
+Refer & earn section
+
+Bookings Screen
+Filter tabs (All, Upcoming, Completed, Cancelled)
+
+Booking cards with:
+
+Service icon with colored glow
+
+Provider name
+
+Date & time range
+
+Status badge
+
+Star rating
+
+Price display
+
+Chat Screen
+Search functionality
+
+Chat tiles with:
+
+Avatar with gradient border
+
+Online status indicator
+
+Unread message count
+
+Last message preview
+
+Timestamp
+
+Profile Screen
+Profile picture with neon glow
+
+User information
+
+Settings options
+
+Logout functionality
+
+🔧 Customization
+Changing Colors
+Edit lib/theme/app_theme.dart:
+
+dart
+Copy code
 static const Color neonPurple = Color(0xFFD500F9);
 static const Color neonBlue = Color(0xFF00B0FF);
 // Add your custom colors
-```
+Adding New Services
+Edit lib/screens/services_screen.dart:
 
-### Adding New Services
-Edit `lib/screens/services_screen.dart`:
-```dart
+dart
+Copy code
 ServiceData(
   title: 'Your Service',
   subtitle: 'Description',
@@ -197,30 +218,14 @@ ServiceData(
   gradient: yourGradient,
   category: 'YourCategory',
 ),
-```
+📱 Supported Platforms
+✅ Android
 
-## 📱 Supported Platforms
-- ✅ Android
-- ✅ iOS
-- ⚠️ Web (Limited support)
+✅ iOS
 
-## 🤝 Contributing
+⚠️ Web (Limited support)
+
+🤝 Contributing
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## 📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 👨‍💻 Author
-**Annie**
-- Email: annie@example.com
-
-## 🙏 Acknowledgments
-- Flutter team for the amazing framework
-- Google Fonts for beautiful typography
-- flutter_animate for smooth animations
-
----
-
-<div align="center">
-  Made with ❤️ using Flutter
-</div>
