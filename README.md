@@ -33,12 +33,10 @@ A premium, modern Flutter application for booking home services with a stunning 
 
 ## 📸 Screenshots
 
-<div align="center">
-  <img src="assets/images/homescreen.png" alt="Home Screen" width="200"/>
-  <img src="assets/images/homebookings.png" alt="Bookings" width="200"/>
-  <img src="assets/images/homechat.png" alt="Chat" width="200"/>
-  <img src="assets/images/homeprofile.png" alt="Profile" width="200"/>
-</div>
+| Home Screen | Bookings | Chat | Profile |
+|-------------|----------|------|---------|
+| ![Home Screen](assets/images/homescreen.png) | ![Bookings](assets/images/homebookings.png) | ![Chat](assets/images/homechat.png) | ![Profile](assets/images/homeprofile.png) |
+| Premium dark theme with stats dashboard, featured services, and quick actions | Booking management with status tracking and provider details | Real-time chat with online indicators and unread counts | User profile with settings and neon glow effects |
 
 ## 🛠️ Tech Stack
 
