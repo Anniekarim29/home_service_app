@@ -1,27 +1,27 @@
-# 🏠 Home Service App
+#  Home Service App
 
 A premium, modern Flutter application for booking home services with a stunning dark theme UI featuring neon accents, glassmorphism effects, and smooth animations.
 
 ![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
 ![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)
 
-## ✨ Features
+##  Features
 
-### 🎨 Premium UI/UX Design
+### Premium UI/UX Design
 - **Dark Theme** with neon color accents (Purple, Blue, Green, Gold)
 - **Glassmorphism effects** throughout the app
 - **Smooth animations** using flutter_animate
 - **Bold typography** with Google Fonts (Poppins, Inter)
 - **Responsive layout** optimized for all screen sizes
 
-### 📱 Core Functionality
+###  Core Functionality
 - **Home Screen** with stats dashboard, featured services carousel, and quick actions
 - **Services Listing** with premium service cards
 - **Bookings Management** with status tracking and provider details
 - **Chat Interface** with online status indicators and unread message counts
 - **User Profile** with settings and account management
 
-### 🚀 Key Highlights
+###  Key Highlights
 - Stats Dashboard (Bookings, Savings, Services Used)
 - Featured Services Carousel
 - Premium Category Cards with service counts
@@ -31,25 +31,25 @@ A premium, modern Flutter application for booking home services with a stunning 
 - Real-time booking status updates
 - Interactive chat with service providers
 
-## 📸 Screenshots
+##  Screenshots
 
 ### Home Screen
 ![Home Screen](assets/images/homescreen.png)
-*Premium dark theme with stats dashboard, featured services, and quick actions*
+
 
 ### Bookings
 ![Bookings](assets/images/homebookings.png)
-*Booking management with status tracking and provider details*
+
 
 ### Chat
 ![Chat](assets/images/homechat.png)
-*Real-time chat with online indicators and unread counts*
+
 
 ### Profile
 ![Profile](assets/images/homeprofile.png)
 *User profile with settings and neon glow effects*
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 - **Framework**: Flutter 3.x
 - **Language**: Dart
@@ -58,7 +58,7 @@ A premium, modern Flutter application for booking home services with a stunning 
 - **Fonts**: Google Fonts (Poppins, Inter)
 - **UI Components**: Custom widgets with premium styling
 
-## 📦 Dependencies
+##  Dependencies
 
 ```yaml
 dependencies:
@@ -68,7 +68,7 @@ dependencies:
   flutter_animate: ^4.5.0
 ```
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 - Flutter SDK (3.0 or higher)
