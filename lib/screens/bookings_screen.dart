@@ -71,7 +71,7 @@ class BookingsScreen extends StatelessWidget {
                     children: [
                       _buildBookingCard(
                         'Home Cleaning',
-                        'Sarah Johnson',
+                        'Sara Ahmed',
                         'Today, 10:00 AM - 12:00 PM',
                         'In Progress',
                         AppTheme.neonGreen,
@@ -84,7 +84,7 @@ class BookingsScreen extends StatelessWidget {
                       
                       _buildBookingCard(
                         'Plumbing Repair',
-                        'Mike Anderson',
+                        'Ali Hassan',
                         'Tomorrow, 2:00 PM - 4:00 PM',
                         'Confirmed',
                         AppTheme.neonBlue,
@@ -97,7 +97,7 @@ class BookingsScreen extends StatelessWidget {
                       
                       _buildBookingCard(
                         'AC Service',
-                        'David Martinez',
+                        'Usman Gondal',
                         'Dec 12, 11:30 AM - 1:30 PM',
                         'Pending',
                         AppTheme.goldAccent,
@@ -110,7 +110,7 @@ class BookingsScreen extends StatelessWidget {
                       
                       _buildBookingCard(
                         'Electrical Work',
-                        'James Wilson',
+                        'Bilal Khan',
                         'Dec 15, 9:00 AM - 11:00 AM',
                         'Scheduled',
                         AppTheme.neonPurple,

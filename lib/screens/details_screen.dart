@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../widgets/premium_background.dart';
 
+import 'checkout_screen.dart';
+
 class DetailsScreen extends StatefulWidget {
   final String title;
   final String description;
@@ -235,7 +237,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Marcus Mane',
+                                  'Ahmed Bilal',
                                   style: AppTheme.displayMedium.copyWith(fontSize: 16),
                                 ),
                                 Text(
@@ -312,7 +314,19 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   const SizedBox(width: 20),
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CheckoutScreen(
+                              serviceTitle: widget.title,
+                              price: widget.price,
+                              date: 'Today',
+                              time: '10:00 AM',
+                            ),
+                          ),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppTheme.primaryColor,
                         foregroundColor: Colors.white,

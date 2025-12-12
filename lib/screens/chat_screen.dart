@@ -93,7 +93,7 @@ class ChatScreen extends StatelessWidget {
                       const SizedBox(height: 15),
                       
                       _buildChatTile(
-                        'Sarah Johnson',
+                        'Sara Ahmed',
                         'I will be there in 10 minutes. See you soon!',
                         '1h ago',
                         true,
@@ -105,7 +105,7 @@ class ChatScreen extends StatelessWidget {
                       const SizedBox(height: 15),
                       
                       _buildChatTile(
-                        'Mike Anderson',
+                        'Ali Hassan',
                         'The plumbing work is completed. Thank you!',
                         '3h ago',
                         false,
@@ -117,7 +117,7 @@ class ChatScreen extends StatelessWidget {
                       const SizedBox(height: 15),
                       
                       _buildChatTile(
-                        'David Martinez',
+                        'Usman Gondal',
                         'I\'ll bring all the necessary equipment.',
                         'Yesterday',
                         false,
@@ -129,7 +129,7 @@ class ChatScreen extends StatelessWidget {
                       const SizedBox(height: 15),
                       
                       _buildChatTile(
-                        'James Wilson',
+                        'Bilal Khan',
                         'Thanks for the 5-star review! 😊',
                         '2 days ago',
                         false,
