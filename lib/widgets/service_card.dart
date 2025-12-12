@@ -21,21 +21,52 @@ class ServiceCard extends StatelessWidget {
     required this.onTap,
   });
 
+  Color _getAccentColor() {
+    // Extract color from gradient for accent
+    if (gradient is LinearGradient) {
+      final colors = (gradient as LinearGradient).colors;
+      if (colors.isNotEmpty) {
+        // Map light colors to neon equivalents
+        final firstColor = colors.first;
+        if (firstColor.red > 200 && firstColor.green < 200 && firstColor.blue < 200) {
+          return AppTheme.neonPurple; // Pink/Purple gradients
+        } else if (firstColor.blue > 200 && firstColor.red < 200) {
+          return AppTheme.neonBlue; // Blue gradients
+        } else if (firstColor.green > 200 && firstColor.red < 200) {
+          return AppTheme.neonGreen; // Green gradients
+        } else if (firstColor.red > 200 && firstColor.green > 200) {
+          return AppTheme.goldAccent; // Yellow/Orange gradients
+        }
+      }
+    }
+    return AppTheme.neonPurple; // Default
+  }
+
   @override
   Widget build(BuildContext context) {
+    final accentColor = _getAccentColor();
+    
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 20),
-        height: 160, // Fixed height for consistency
+        height: 140,
         decoration: BoxDecoration(
-          gradient: gradient,
+          color: AppTheme.surfaceDark,
           borderRadius: BorderRadius.circular(24),
+          border: Border.all(
+            color: accentColor.withOpacity(0.3),
+            width: 1,
+          ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: accentColor.withOpacity(0.2),
               blurRadius: 20,
-              offset: const Offset(0, 10),
+              offset: const Offset(0, 8),
+            ),
+            BoxShadow(
+              color: Colors.black.withOpacity(0.3),
+              blurRadius: 15,
+              offset: const Offset(0, 5),
             ),
           ],
         ),
@@ -45,23 +76,28 @@ class ServiceCard extends StatelessWidget {
             children: [
               // Left Side - Text Content
               Expanded(
+                flex: 3,
                 child: Padding(
-                  padding: const EdgeInsets.all(24),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         title,
-                        style: AppTheme.displayMedium.copyWith(fontSize: 20),
+                        style: AppTheme.displayMedium.copyWith(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: 5),
+                      const SizedBox(height: 6),
                       Text(
                         subtitle,
                         style: AppTheme.bodyMedium.copyWith(
-                          color: AppTheme.textDark.withOpacity(0.7),
+                          color: Colors.white70,
                           fontSize: 13,
                         ),
                         maxLines: 2,
@@ -72,14 +108,19 @@ class ServiceCard extends StatelessWidget {
                         children: [
                           Text(
                             price,
-                            style: AppTheme.displayMedium.copyWith(fontSize: 22),
+                            style: AppTheme.displayMedium.copyWith(
+                              fontSize: 20,
+                              color: accentColor,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                          const SizedBox(width: 10),
+                          const SizedBox(width: 8),
                           Text(
                             originalPrice,
                             style: AppTheme.bodyMedium.copyWith(
                               decoration: TextDecoration.lineThrough,
-                              color: AppTheme.textGrey,
+                              color: Colors.white38,
+                              fontSize: 14,
                             ),
                           ),
                         ],
@@ -90,36 +131,74 @@ class ServiceCard extends StatelessWidget {
               ),
               
               // Right Side - Image & Arrow
-              SizedBox(
-                width: 140,
-                height: double.infinity,
+              Expanded(
+                flex: 2,
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    Image.asset(
-                      imagePath,
-                      fit: BoxFit.cover,
+                    // Image with gradient overlay
+                    Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            accentColor.withOpacity(0.3),
+                            accentColor.withOpacity(0.1),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                      ),
+                      child: Image.asset(
+                        imagePath,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          // Fallback if image doesn't exist
+                          return Container(
+                            color: accentColor.withOpacity(0.2),
+                            child: Icon(
+                              Icons.image_not_supported,
+                              color: accentColor.withOpacity(0.5),
+                              size: 40,
+                            ),
+                          );
+                        },
+                      ),
                     ),
+                    
+                    // Gradient overlay for better icon visibility
+                    Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.transparent,
+                            Colors.black.withOpacity(0.3),
+                          ],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                      ),
+                    ),
+                    
                     // Arrow Button
                     Positioned(
-                      top: 15,
-                      right: 15,
+                      top: 12,
+                      right: 12,
                       child: Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.9),
+                          color: accentColor.withOpacity(0.9),
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 5,
+                              color: accentColor.withOpacity(0.4),
+                              blurRadius: 8,
                             ),
                           ],
                         ),
                         child: const Icon(
-                          Icons.arrow_forward_ios,
-                          size: 14,
-                          color: AppTheme.textDark,
+                          Icons.arrow_forward,
+                          size: 16,
+                          color: Colors.white,
                         ),
                       ),
                     ),

@@ -84,7 +84,7 @@ class ProfileScreen extends StatelessWidget {
                 
                 // Name with Bold Font
                 Text(
-                  'Anna Grace',
+                  'Annie',
                   style: AppTheme.displayMedium.copyWith(
                     color: Colors.white,
                     fontSize: 26,
@@ -96,7 +96,7 @@ class ProfileScreen extends StatelessWidget {
                 
                 // Email with Better Contrast
                 Text(
-                  'anna.grace@example.com',
+                  'annie@example.com',
                   style: AppTheme.bodyLarge.copyWith(
                     color: Colors.white70,
                     fontSize: 15,

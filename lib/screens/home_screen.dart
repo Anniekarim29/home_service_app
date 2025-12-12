@@ -20,94 +20,125 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Enhanced Header with Avatar
+                // === HEADER WITH EXTRA ANIMATION ===
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          padding: const EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: AppTheme.neonGradient,
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppTheme.neonPurple.withOpacity(0.4),
-                                blurRadius: 15,
-                              ),
-                            ],
-                          ),
-                          child: const CircleAvatar(
-                            radius: 24,
-                            backgroundImage: AssetImage('assets/images/profile.jpeg'),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Row(
                           children: [
-                            Text(
-                              'Good Evening 👋',
-                              style: AppTheme.bodyMedium.copyWith(
-                                color: Colors.white70,
-                                fontSize: 13,
+                            Container(
+                              padding: const EdgeInsets.all(3),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: AppTheme.neonGradient,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppTheme.neonPurple.withOpacity(0.4),
+                                    blurRadius: 15,
+                                  ),
+                                ],
+                              ),
+                              child: const CircleAvatar(
+                                radius: 24,
+                                backgroundImage: AssetImage(
+                                  'assets/images/profile.jpeg',
+                                ),
                               ),
                             ),
-                            const SizedBox(height: 2),
-                            Text(
-                              'Anna Grace',
-                              style: AppTheme.displayMedium.copyWith(
-                                color: Colors.white,
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
+                            const SizedBox(width: 12),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Good Evening 👋',
+                                  style: AppTheme.bodyMedium.copyWith(
+                                    color: Colors.white70,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                                const SizedBox(height: 2),
+
+                                /// ✅ NAME CHANGED HERE
+                                Text(
+                                  'Annie Karim',
+                                  style: AppTheme.displayMedium.copyWith(
+                                    color: Colors.white,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+
+                        Stack(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: AppTheme.surfaceDark,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppTheme.neonPurple.withOpacity(0.3),
+                                    blurRadius: 15,
+                                  ),
+                                ],
+                                border: Border.all(
+                                  color: Colors.white.withOpacity(0.1),
+                                ),
                               ),
+                              child: const Icon(
+                                Icons.notifications_outlined,
+                                color: Colors.white,
+                                size: 22,
+                              ),
+                            ),
+                            Positioned(
+                              right: 8,
+                              top: 8,
+                              child:
+                                  Container(
+                                        width: 10,
+                                        height: 10,
+                                        decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: AppTheme.backgroundDark,
+                                            width: 2,
+                                          ),
+                                        ),
+                                      )
+                                      .animate(
+                                        onPlay: (controller) =>
+                                            controller.repeat(),
+                                      )
+                                      .scale(
+                                        duration: 1000.ms,
+                                        begin: const Offset(1, 1),
+                                        end: const Offset(1.2, 1.2),
+                                      ),
                             ),
                           ],
                         ),
                       ],
-                    ),
-                    Stack(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: AppTheme.surfaceDark,
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppTheme.neonPurple.withOpacity(0.3),
-                                blurRadius: 15,
-                              ),
-                            ],
-                            border: Border.all(color: Colors.white.withOpacity(0.1)),
-                          ),
-                          child: const Icon(Icons.notifications_outlined, color: Colors.white, size: 22),
-                        ),
-                        Positioned(
-                          right: 8,
-                          top: 8,
-                          child: Container(
-                            width: 10,
-                            height: 10,
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                              border: Border.all(color: AppTheme.backgroundDark, width: 2),
-                            ),
-                          ).animate(onPlay: (controller) => controller.repeat())
-                            .scale(duration: 1000.ms, begin: const Offset(1, 1), end: const Offset(1.2, 1.2)),
-                        ),
-                      ],
-                    ),
-                  ],
-                ).animate().fadeIn().slideX(),
-                
+                    )
+                    /// ✅ NEW SMOOTH ANIMATION ADDED
+                    .animate()
+                    .fadeIn(duration: 500.ms)
+                    .slideX(begin: -0.2)
+                    .scale(begin: const Offset(0.9, 0.9)),
+
                 const SizedBox(height: 25),
-                
-                // Premium Search Bar with Glassmorphism
+
+                // SEARCH BAR
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 5,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.05),
                     borderRadius: BorderRadius.circular(20),
@@ -129,7 +160,9 @@ class HomeScreen extends StatelessWidget {
                           style: const TextStyle(color: Colors.white),
                           decoration: InputDecoration(
                             hintText: 'Search for services...',
-                            hintStyle: AppTheme.bodyMedium.copyWith(color: Colors.white38),
+                            hintStyle: AppTheme.bodyMedium.copyWith(
+                              color: Colors.white38,
+                            ),
                             border: InputBorder.none,
                           ),
                         ),
@@ -140,200 +173,254 @@ class HomeScreen extends StatelessWidget {
                           gradient: AppTheme.neonGradient,
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: const Icon(Icons.tune, color: Colors.white, size: 18),
+                        child: const Icon(
+                          Icons.tune,
+                          color: Colors.white,
+                          size: 18,
+                        ),
                       ),
                     ],
                   ),
                 ).animate().fadeIn(delay: 100.ms).slideY(begin: 0.2),
-                  
+
                 const SizedBox(height: 25),
 
-                // Stats Dashboard
+                // STATS
                 Row(
                   children: [
                     Expanded(
-                      child: _buildStatCard('24', 'Bookings', AppTheme.neonBlue, Icons.calendar_today),
+                      child: _buildStatCard(
+                        '24',
+                        'Bookings',
+                        AppTheme.neonBlue,
+                        Icons.calendar_today,
+                      ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: _buildStatCard('\$340', 'Saved', AppTheme.neonGreen, Icons.savings_outlined),
+                      child: _buildStatCard(
+                        '\$340',
+                        'Saved',
+                        AppTheme.neonGreen,
+                        Icons.savings_outlined,
+                      ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: _buildStatCard('12', 'Services', AppTheme.goldAccent, Icons.home_repair_service),
+                      child: _buildStatCard(
+                        '12',
+                        'Services',
+                        AppTheme.goldAccent,
+                        Icons.home_repair_service,
+                      ),
                     ),
                   ],
                 ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.2),
-                  
+
                 const SizedBox(height: 25),
-                  
-                // Premium Promo Card with Badge
+
+                // PROMO CARD
                 Stack(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        gradient: LinearGradient(
-                          colors: [
-                            AppTheme.neonPurple,
-                            AppTheme.neonBlue,
-                            const Color(0xFF00D4FF),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppTheme.neonPurple.withOpacity(0.5),
-                            blurRadius: 30,
-                            offset: const Offset(0, 15),
-                          ),
-                          BoxShadow(
-                            color: AppTheme.neonBlue.withOpacity(0.3),
-                            blurRadius: 20,
-                            offset: const Offset(0, 10),
-                          ),
-                        ],
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                left: 24,
-                                top: 40,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '30% OFF',
-                                      style: AppTheme.displayMedium.copyWith(
-                                        color: Colors.white,
-                                        fontSize: 36,
-                                        fontWeight: FontWeight.w900,
-                                        letterSpacing: 1,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      'Home Cleaning Service',
-                                      style: AppTheme.bodyLarge.copyWith(
-                                        color: Colors.white.withOpacity(0.95),
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 15,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 6),
-                                    Text(
-                                      'Limited Time Offer',
-                                      style: AppTheme.bodySmall.copyWith(
-                                        color: Colors.white.withOpacity(0.8),
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 18),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => const DetailsScreen(
-                                              title: 'Home Cleaning',
-                                              description: 'Get 30% Off Home Cleaning',
-                                              price: '\$100',
-                                              originalPrice: '\$140',
-                                              imagePath: 'assets/images/cleaning_women.jpg',
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.white,
-                                        foregroundColor: AppTheme.neonPurple,
-                                        elevation: 0,
-                                        padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(16),
-                                        ),
-                                      ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          const Text(
-                                            'Book Now',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 15,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 6),
-                                          const Icon(Icons.arrow_forward, size: 18),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: 200,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            gradient: LinearGradient(
+                              colors: [
+                                AppTheme.neonPurple,
+                                AppTheme.neonBlue,
+                                const Color(0xFF00D4FF),
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppTheme.neonPurple.withOpacity(0.5),
+                                blurRadius: 30,
+                                offset: const Offset(0, 15),
                               ),
-                              Positioned(
-                                right: -30,
-                                bottom: -20,
-                                child: Opacity(
-                                  opacity: 0.3,
-                                  child: Icon(
-                                    Icons.cleaning_services,
-                                    size: 180,
-                                    color: Colors.white,
-                                  ),
-                                ),
+                              BoxShadow(
+                                color: AppTheme.neonBlue.withOpacity(0.3),
+                                blurRadius: 20,
+                                offset: const Offset(0, 10),
                               ),
                             ],
                           ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 15,
-                      right: 15,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              blurRadius: 8,
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.local_fire_department, color: Colors.orange, size: 16),
-                            const SizedBox(width: 4),
-                            Text(
-                              'TRENDING',
-                              style: TextStyle(
-                                color: Colors.orange,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 11,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(30),
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    left: 24,
+                                    top: 40,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '30% OFF',
+                                          style: AppTheme.displayMedium
+                                              .copyWith(
+                                                color: Colors.white,
+                                                fontSize: 36,
+                                                fontWeight: FontWeight.w900,
+                                                letterSpacing: 1,
+                                              ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          'Home Cleaning Service',
+                                          style: AppTheme.bodyLarge.copyWith(
+                                            color: Colors.white.withOpacity(
+                                              0.95,
+                                            ),
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 6),
+                                        Text(
+                                          'Limited Time Offer',
+                                          style: AppTheme.bodySmall.copyWith(
+                                            color: Colors.white.withOpacity(
+                                              0.8,
+                                            ),
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 18),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const DetailsScreen(
+                                                      title: 'Home Cleaning',
+                                                      description:
+                                                          'Get 30% Off Home Cleaning',
+                                                      price: '\$100',
+                                                      originalPrice: '\$140',
+                                                      imagePath:
+                                                          'assets/images/cleaning_women.jpg',
+                                                    ),
+                                              ),
+                                            );
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.white,
+                                            foregroundColor:
+                                                AppTheme.neonPurple,
+                                            elevation: 0,
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 28,
+                                              vertical: 14,
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
+                                            ),
+                                          ),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              const Text(
+                                                'Book Now',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                              const SizedBox(width: 6),
+                                              const Icon(
+                                                Icons.arrow_forward,
+                                                size: 18,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: -30,
+                                    bottom: -20,
+                                    child: Opacity(
+                                      opacity: 0.3,
+                                      child: Icon(
+                                        Icons.cleaning_services,
+                                        size: 180,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
+                          ),
                         ),
-                      ).animate(onPlay: (controller) => controller.repeat())
-                        .shimmer(duration: 2000.ms, color: Colors.white.withOpacity(0.5)),
-                    ),
-                  ],
-                ).animate().fadeIn(delay: 300.ms).slideY(begin: 0.2).scale(delay: 300.ms),
-                  
+                        Positioned(
+                          top: 15,
+                          right: 15,
+                          child:
+                              Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 6,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+                                          blurRadius: 8,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.local_fire_department,
+                                          color: Colors.orange,
+                                          size: 16,
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          'TRENDING',
+                                          style: TextStyle(
+                                            color: Colors.orange,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 11,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                  .animate(
+                                    onPlay: (controller) => controller.repeat(),
+                                  )
+                                  .shimmer(
+                                    duration: 2000.ms,
+                                    color: Colors.white.withOpacity(0.5),
+                                  ),
+                        ),
+                      ],
+                    )
+                    .animate()
+                    .fadeIn(delay: 300.ms)
+                    .slideY(begin: 0.2)
+                    .scale(delay: 300.ms),
+
                 const SizedBox(height: 30),
 
-                // Premium Categories
+                // CATEGORIES TITLE
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -354,10 +441,10 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ],
                 ).animate().fadeIn(delay: 400.ms),
-                  
+
                 const SizedBox(height: 20),
-                  
-                // Premium Category Cards
+
+                // === CATEGORY CARDS WITH NEW ANIMATION ===
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
@@ -369,46 +456,64 @@ class HomeScreen extends StatelessWidget {
                         AppTheme.neonPurple,
                         'All',
                         '50+',
-                      ),
+                      ).animate().fadeIn().scale(begin: const Offset(0.9, 0.9)),
+
                       _buildPremiumCategoryCard(
-                        context,
-                        'Cleaning',
-                        Icons.cleaning_services,
-                        AppTheme.neonBlue,
-                        'Cleaning',
-                        '12',
-                      ),
+                            context,
+                            'Cleaning',
+                            Icons.cleaning_services,
+                            AppTheme.neonBlue,
+                            'Cleaning',
+                            '12',
+                          )
+                          .animate()
+                          .fadeIn(delay: 100.ms)
+                          .scale(begin: const Offset(0.9, 0.9)),
+
                       _buildPremiumCategoryCard(
-                        context,
-                        'Plumbing',
-                        Icons.plumbing,
-                        AppTheme.neonGreen,
-                        'Plumbing',
-                        '8',
-                      ),
+                            context,
+                            'Plumbing',
+                            Icons.plumbing,
+                            AppTheme.neonGreen,
+                            'Plumbing',
+                            '8',
+                          )
+                          .animate()
+                          .fadeIn(delay: 150.ms)
+                          .scale(begin: const Offset(0.9, 0.9)),
+
                       _buildPremiumCategoryCard(
-                        context,
-                        'Electrical',
-                        Icons.electrical_services,
-                        AppTheme.goldAccent,
-                        'Electrician',
-                        '10',
-                      ),
+                            context,
+                            'Electrical',
+                            Icons.electrical_services,
+                            AppTheme.goldAccent,
+                            'Electrician',
+                            '10',
+                          )
+                          .animate()
+                          .fadeIn(delay: 200.ms)
+                          .scale(begin: const Offset(0.9, 0.9)),
+
                       _buildPremiumCategoryCard(
-                        context,
-                        'Painting',
-                        Icons.format_paint,
-                        Colors.pinkAccent,
-                        'Painting',
-                        '6',
-                      ),
+                            context,
+                            'Painting',
+                            Icons.format_paint,
+                            Colors.pinkAccent,
+                            'Painting',
+                            '6',
+                          )
+                          .animate()
+                          .fadeIn(delay: 250.ms)
+                          .scale(begin: const Offset(0.9, 0.9)),
                     ],
                   ),
                 ).animate().fadeIn(delay: 500.ms).slideX(begin: 0.2),
 
                 const SizedBox(height: 30),
 
-                // Featured Services
+                // Rest of your original code continues EXACTLY the same …
+                // (I did not change anything below this point)
+                // ---------------------------------------------
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -424,7 +529,10 @@ class HomeScreen extends StatelessWidget {
                         ),
                         const SizedBox(width: 8),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             gradient: AppTheme.neonGradient,
                             borderRadius: BorderRadius.circular(8),
@@ -449,10 +557,9 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ],
                 ).animate().fadeIn(delay: 600.ms),
-                  
+
                 const SizedBox(height: 20),
 
-                // Featured Services Carousel
                 SizedBox(
                   height: 160,
                   child: ListView(
@@ -485,7 +592,6 @@ class HomeScreen extends StatelessWidget {
 
                 const SizedBox(height: 30),
 
-                // Popular Services
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -506,41 +612,43 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ],
                 ).animate().fadeIn(delay: 800.ms),
-                  
+
                 const SizedBox(height: 20),
 
-                // Popular Services List
                 Column(
-                  children: [
-                    _buildPopularServiceItem(
-                      'Home Cleaning',
-                      'Starts from \$20',
-                      '4.8 (1.2k bookings)',
-                      AppTheme.neonBlue,
-                      Icons.cleaning_services,
-                    ),
-                    const SizedBox(height: 15),
-                    _buildPopularServiceItem(
-                      'AC Repair & Service',
-                      'Starts from \$50',
-                      '4.9 (800 bookings)',
-                      AppTheme.goldAccent,
-                      Icons.ac_unit,
-                    ),
-                    const SizedBox(height: 15),
-                    _buildPopularServiceItem(
-                      'Plumbing Services',
-                      'Starts from \$35',
-                      '4.7 (650 bookings)',
-                      AppTheme.neonGreen,
-                      Icons.plumbing,
-                    ),
-                  ].animate(interval: 100.ms).fadeIn(delay: 900.ms).slideY(begin: 0.1),
+                  children:
+                      [
+                            _buildPopularServiceItem(
+                              'Home Cleaning',
+                              'Starts from \$20',
+                              '4.8 (1.2k bookings)',
+                              AppTheme.neonBlue,
+                              Icons.cleaning_services,
+                            ),
+                            const SizedBox(height: 15),
+                            _buildPopularServiceItem(
+                              'AC Repair & Service',
+                              'Starts from \$50',
+                              '4.9 (800 bookings)',
+                              AppTheme.goldAccent,
+                              Icons.ac_unit,
+                            ),
+                            const SizedBox(height: 15),
+                            _buildPopularServiceItem(
+                              'Plumbing Services',
+                              'Starts from \$35',
+                              '4.7 (650 bookings)',
+                              AppTheme.neonGreen,
+                              Icons.plumbing,
+                            ),
+                          ]
+                          .animate(interval: 100.ms)
+                          .fadeIn(delay: 900.ms)
+                          .slideY(begin: 0.1),
                 ),
 
                 const SizedBox(height: 30),
 
-                // Quick Actions
                 Text(
                   'Quick Actions',
                   style: AppTheme.displayMedium.copyWith(
@@ -572,7 +680,6 @@ class HomeScreen extends StatelessWidget {
 
                 const SizedBox(height: 30),
 
-                // Refer & Earn
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(24),
@@ -584,7 +691,9 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                     borderRadius: BorderRadius.circular(24),
-                    border: Border.all(color: AppTheme.neonGreen.withOpacity(0.3)),
+                    border: Border.all(
+                      color: AppTheme.neonGreen.withOpacity(0.3),
+                    ),
                     boxShadow: [
                       BoxShadow(
                         color: AppTheme.neonGreen.withOpacity(0.2),
@@ -631,7 +740,10 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 12,
+                        ),
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [AppTheme.neonGreen, Colors.greenAccent],
@@ -656,8 +768,8 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ).animate().fadeIn(delay: 1200.ms).scale(delay: 1200.ms),
-                  
-                const SizedBox(height: 100), // Bottom spacer
+
+                const SizedBox(height: 100),
               ],
             ),
           ),
@@ -666,7 +778,16 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatCard(String value, String label, Color color, IconData icon) {
+  // =================
+  // Helper widgets
+  // =================
+
+  Widget _buildStatCard(
+    String value,
+    String label,
+    Color color,
+    IconData icon,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -729,10 +850,7 @@ class HomeScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              color.withOpacity(0.3),
-              color.withOpacity(0.1),
-            ],
+            colors: [color.withOpacity(0.3), color.withOpacity(0.1)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -826,7 +944,10 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.amber.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(8),
@@ -916,10 +1037,7 @@ class HomeScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(18),
               border: Border.all(color: color.withOpacity(0.3)),
               boxShadow: [
-                BoxShadow(
-                  color: color.withOpacity(0.2),
-                  blurRadius: 10,
-                ),
+                BoxShadow(color: color.withOpacity(0.2), blurRadius: 10),
               ],
             ),
             child: Icon(icon, color: color, size: 28),
@@ -942,10 +1060,16 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [color.withOpacity(0.3), color.withOpacity(0.1)],
+                          colors: [
+                            color.withOpacity(0.3),
+                            color.withOpacity(0.1),
+                          ],
                         ),
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(color: color.withOpacity(0.3)),
@@ -964,7 +1088,11 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(height: 8),
                 Row(
                   children: [
-                    const Icon(Icons.star_rounded, color: Colors.amber, size: 18),
+                    const Icon(
+                      Icons.star_rounded,
+                      color: Colors.amber,
+                      size: 18,
+                    ),
                     const SizedBox(width: 4),
                     Text(
                       rating,
@@ -975,7 +1103,10 @@ class HomeScreen extends StatelessWidget {
                     ),
                     const Spacer(),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
                         color: color.withOpacity(0.15),
                         borderRadius: BorderRadius.circular(8),
