@@ -1,3 +1,6 @@
+/// The entry point for the Home Service App.
+/// 
+/// This file sets up the main [MaterialApp] and the application theme.
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
 import 'screens/main_wrapper.dart';
