@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+/// A comprehensive theme class for the Home Service App.
+/// Provides defined colors, gradients, and text styles.
 class AppTheme {
   // Colors
   static const Color primaryColor = Color(0xFF6610F2); // Electric Indigo
