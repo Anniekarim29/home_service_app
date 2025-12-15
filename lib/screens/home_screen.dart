@@ -4,6 +4,7 @@ import 'dart:ui';
 import '../theme/app_theme.dart';
 import 'services_screen.dart';
 import 'details_screen.dart';
+import 'notifications_screen.dart';
 import '../widgets/premium_background.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -72,56 +73,66 @@ class HomeScreen extends StatelessWidget {
                           ],
                         ),
 
-                        Stack(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                color: AppTheme.surfaceDark,
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AppTheme.neonPurple.withOpacity(0.3),
-                                    blurRadius: 15,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const NotificationsScreen(),
+                              ),
+                            );
+                          },
+                          child: Stack(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.surfaceDark,
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppTheme.neonPurple.withOpacity(0.3),
+                                      blurRadius: 15,
+                                    ),
+                                  ],
+                                  border: Border.all(
+                                    color: Colors.white.withOpacity(0.1),
                                   ),
-                                ],
-                                border: Border.all(
-                                  color: Colors.white.withOpacity(0.1),
+                                ),
+                                child: const Icon(
+                                  Icons.notifications_outlined,
+                                  color: Colors.white,
+                                  size: 22,
                                 ),
                               ),
-                              child: const Icon(
-                                Icons.notifications_outlined,
-                                color: Colors.white,
-                                size: 22,
-                              ),
-                            ),
-                            Positioned(
-                              right: 8,
-                              top: 8,
-                              child:
-                                  Container(
-                                        width: 10,
-                                        height: 10,
-                                        decoration: BoxDecoration(
-                                          color: Colors.red,
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color: AppTheme.backgroundDark,
-                                            width: 2,
+                              Positioned(
+                                right: 8,
+                                top: 8,
+                                child:
+                                    Container(
+                                          width: 10,
+                                          height: 10,
+                                          decoration: BoxDecoration(
+                                            color: Colors.red,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color: AppTheme.backgroundDark,
+                                              width: 2,
+                                            ),
                                           ),
+                                        )
+                                        .animate(
+                                          onPlay: (controller) =>
+                                              controller.repeat(),
+                                        )
+                                        .scale(
+                                          duration: 1000.ms,
+                                          begin: const Offset(1, 1),
+                                          end: const Offset(1.2, 1.2),
                                         ),
-                                      )
-                                      .animate(
-                                        onPlay: (controller) =>
-                                            controller.repeat(),
-                                      )
-                                      .scale(
-                                        duration: 1000.ms,
-                                        begin: const Offset(1, 1),
-                                        end: const Offset(1.2, 1.2),
-                                      ),
-                            ),
-                          ],
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     )
