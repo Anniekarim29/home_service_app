@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_theme.dart';
 import '../widgets/premium_background.dart';
+import 'notifications_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -128,7 +129,15 @@ class ProfileScreen extends StatelessWidget {
                       const SizedBox(height: 20),
                       _buildSettingsTile(Icons.location_on_outlined, 'Saved Addresses', AppTheme.goldAccent),
                       const SizedBox(height: 20),
-                      _buildSettingsTile(Icons.notifications_outlined, 'Notifications', Colors.redAccent),
+                      _buildSettingsTile(
+                        Icons.notifications_outlined,
+                        'Notifications',
+                        Colors.redAccent,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const NotificationsScreen()),
+                        ),
+                      ),
                       const SizedBox(height: 20),
                       _buildSettingsTile(Icons.security_outlined, 'Security', AppTheme.neonGreen),
                       const SizedBox(height: 20),
@@ -182,43 +191,47 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSettingsTile(IconData icon, String title, Color iconColor) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: iconColor.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: iconColor.withOpacity(0.3)),
-              boxShadow: [
-                BoxShadow(
-                  color: iconColor.withOpacity(0.2),
-                  blurRadius: 8,
-                ),
-              ],
+  Widget _buildSettingsTile(IconData icon, String title, Color iconColor, {VoidCallback? onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        color: Colors.transparent, // Ensures hit test covers the whole area
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: iconColor.withOpacity(0.15),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: iconColor.withOpacity(0.3)),
+                boxShadow: [
+                  BoxShadow(
+                    color: iconColor.withOpacity(0.2),
+                    blurRadius: 8,
+                  ),
+                ],
+              ),
+              child: Icon(icon, color: iconColor, size: 22),
             ),
-            child: Icon(icon, color: iconColor, size: 22),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              title,
-              style: AppTheme.bodyLarge.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                fontSize: 16,
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                title,
+                style: AppTheme.bodyLarge.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 16,
+                ),
               ),
             ),
-          ),
-          Icon(
-            Icons.arrow_forward_ios,
-            size: 18,
-            color: Colors.white.withOpacity(0.5),
-          ),
-        ],
+            Icon(
+              Icons.arrow_forward_ios,
+              size: 18,
+              color: Colors.white.withOpacity(0.5),
+            ),
+          ],
+        ),
       ),
     );
   }
