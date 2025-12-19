@@ -80,6 +80,19 @@ class SettingsScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 30),
                       _buildSettingsSection(
+                        'Account Actions',
+                        [
+                          _buildSettingsTile(
+                            context,
+                            Icons.delete_forever_outlined,
+                            'Delete Account',
+                            Colors.redAccent,
+                            () => _showDeleteConfirmation(context),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 30),
+                      _buildSettingsSection(
                         'Legal',
                         [
                           _buildSettingsTile(
@@ -170,6 +183,53 @@ class SettingsScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showDeleteConfirmation(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: AppTheme.surfaceDark,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text(
+          'Delete Account',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        content: Text(
+          'Are you sure you want to delete your account? This action is permanent and cannot be undone.',
+          style: TextStyle(color: Colors.white.withOpacity(0.7)),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              'Cancel',
+              style: TextStyle(color: Colors.white.withOpacity(0.5)),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(right: 8),
+            child: ElevatedButton(
+              onPressed: () {
+                // Perform delete logic here
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Account deletion request submitted.'),
+                    backgroundColor: Colors.redAccent,
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.redAccent,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+              child: const Text('Delete', style: TextStyle(color: Colors.white)),
+            ),
+          ),
+        ],
       ),
     );
   }
