@@ -1,6 +1,8 @@
 /// The entry point for the Home Service App.
 /// 
 /// This file sets up the main [MaterialApp] and the application theme.
+/// Last Updated: 2025-12-20
+/// Version: 1.0.1+1 (Minor UI & Doc Polish)
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
 import 'screens/main_wrapper.dart';

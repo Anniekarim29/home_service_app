@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // === HEADER WITH EXTRA ANIMATION ===
+                // === HEADER: User Profile & Greeting ===
                 Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -144,7 +144,7 @@ class HomeScreen extends StatelessWidget {
 
                 const SizedBox(height: 25),
 
-                // SEARCH BAR
+                // === SEARCH: Premium Search Bar ===
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
@@ -196,7 +196,7 @@ class HomeScreen extends StatelessWidget {
 
                 const SizedBox(height: 25),
 
-                // STATS
+                // === STATS: Quick Insights Dashboard ===
                 Row(
                   children: [
                     Expanded(
@@ -230,7 +230,7 @@ class HomeScreen extends StatelessWidget {
 
                 const SizedBox(height: 25),
 
-                // PROMO CARD
+                // === PROMO: Featured Campaign Hero Section ===
                 Stack(
                       children: [
                         Container(
