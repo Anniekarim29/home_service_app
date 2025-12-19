@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_theme.dart';
 import '../widgets/premium_background.dart';
 import 'notifications_screen.dart';
+import 'settings_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -29,20 +30,26 @@ class ProfileScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: AppTheme.surfaceDark,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white.withOpacity(0.1)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppTheme.neonPurple.withOpacity(0.2),
-                            blurRadius: 10,
-                          ),
-                        ],
+                    GestureDetector(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const SettingsScreen()),
                       ),
-                      child: const Icon(Icons.settings, color: Colors.white, size: 22),
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: AppTheme.surfaceDark,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white.withOpacity(0.1)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppTheme.neonPurple.withOpacity(0.2),
+                              blurRadius: 10,
+                            ),
+                          ],
+                        ),
+                        child: const Icon(Icons.settings, color: Colors.white, size: 22),
+                      ),
                     ),
                   ],
                 ).animate().fadeIn().slideX(),
@@ -141,7 +148,15 @@ class ProfileScreen extends StatelessWidget {
                       const SizedBox(height: 20),
                       _buildSettingsTile(Icons.security_outlined, 'Security', AppTheme.neonGreen),
                       const SizedBox(height: 20),
-                      _buildSettingsTile(Icons.help_outline, 'Help & Support', AppTheme.neonBlue),
+                      _buildSettingsTile(
+                        Icons.help_outline,
+                        'Help & Support',
+                        AppTheme.neonBlue,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const SettingsScreen()),
+                        ),
+                      ),
                     ],
                   ),
                 ).animate().fadeIn(delay: 400.ms).slideY(begin: 0.2),
