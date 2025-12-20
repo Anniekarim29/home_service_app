@@ -104,6 +104,30 @@ class SettingsScreen extends StatelessWidget {
                           ),
                         ],
                       ),
+                      const SizedBox(height: 50),
+                      Center(
+                        child: Column(
+                          children: [
+                            Text(
+                              'Version 1.0.0',
+                              style: AppTheme.bodySmall.copyWith(
+                                color: Colors.white.withOpacity(0.3),
+                                fontSize: 12,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              'Made with ❤️ by Annie Karim',
+                              style: AppTheme.bodySmall.copyWith(
+                                color: Colors.white.withOpacity(0.3),
+                                fontSize: 12,
+                                letterSpacing: 1.1,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 30),
                     ],
                   ),
                 ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.1),
