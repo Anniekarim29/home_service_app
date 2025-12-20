@@ -225,6 +225,20 @@ ServiceData(
 
 ⚠️ Web (Limited support)
 
+## 🚀 Roadmap
+
+- [ ] Firebase Authentication integration
+- [ ] Push notifications for booking updates
+- [ ] Integration with Google Maps for location tracking
+- [ ] Multi-language support (English, Urdu, Arabic)
+- [ ] Enhanced dark mode themes
+
+## ⚡ Performance Optimization
+
+- [x] Optimized asset sizes for faster loading
+- [x] Efficient widget rebuilding with `const` constructors
+- [x] Smooth animations with `flutter_animate` staggered effects
+
 🤝 Contributing
 Contributions are welcome! Please feel free to submit a Pull Request.
 

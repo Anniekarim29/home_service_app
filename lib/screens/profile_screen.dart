@@ -103,6 +103,7 @@ class ProfileScreen extends StatelessWidget {
                 const SizedBox(height: 8),
                 
                 // Email with Better Contrast
+                // TODO: Fetch user email from authentication service
                 Text(
                   'annie@example.com',
                   style: AppTheme.bodyLarge.copyWith(

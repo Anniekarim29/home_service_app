@@ -36,12 +36,12 @@ class AppTheme {
   );
 
   // Dark Mode Colors
-  static const Color backgroundDark = Color(0xFF000000); // Pure Black
-  static const Color surfaceDark = Color(0xFF1E1E1E); // Dark Grey
-  static const Color neonPurple = Color(0xFFD500F9); // Vibrant Neon Purple
-  static const Color neonBlue = Color(0xFF00B0FF); // Electric Blue
-  static const Color neonGreen = Color(0xFF00E676); // Neon Green
-  static const Color goldAccent = Color(0xFFFFD700); // Gold
+  static const Color backgroundDark = Color(0xFF000000); // Pure Black for maximum contrast
+  static const Color surfaceDark = Color(0xFF1E1E1E); // Dark Grey for card surfaces
+  static const Color neonPurple = Color(0xFFD500F9); // Vibrant Neon Purple for primary highlights
+  static const Color neonBlue = Color(0xFF00B0FF); // Electric Blue for secondary highlights
+  static const Color neonGreen = Color(0xFF00E676); // Neon Green for success indicators
+  static const Color goldAccent = Color(0xFFFFD700); // Gold for premium badges and stats
 
   static const LinearGradient darkGradient = LinearGradient(
     colors: [Color(0xFF000000), Color(0xFF1A1A1A)],
