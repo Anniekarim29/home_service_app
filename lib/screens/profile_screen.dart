@@ -4,6 +4,7 @@ import '../theme/app_theme.dart';
 import '../widgets/premium_background.dart';
 import 'notifications_screen.dart';
 import 'settings_screen.dart';
+import 'wallet_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -133,7 +134,15 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       _buildSettingsTile(Icons.person_outline, 'Edit Profile', AppTheme.neonBlue),
                       const SizedBox(height: 20),
-                      _buildSettingsTile(Icons.payment_outlined, 'Payment Methods', AppTheme.neonPurple),
+                      _buildSettingsTile(
+                        Icons.payment_outlined,
+                        'Wallet & Payment',
+                        AppTheme.neonPurple,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const WalletScreen()),
+                        ),
+                      ),
                       const SizedBox(height: 20),
                       _buildSettingsTile(Icons.location_on_outlined, 'Saved Addresses', AppTheme.goldAccent),
                       const SizedBox(height: 20),
