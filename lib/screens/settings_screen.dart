@@ -113,7 +113,7 @@ class SettingsScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              'Version 1.0.0',
+                              'Version 1.0.0 • Last Updated: Dec 2025',
                               style: AppTheme.bodySmall.copyWith(
                                 color: Colors.white.withOpacity(0.3),
                                 fontSize: 12,
