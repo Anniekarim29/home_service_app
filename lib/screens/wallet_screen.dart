@@ -40,6 +40,19 @@ class WalletScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    const Spacer(),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: AppTheme.surfaceDark,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white.withOpacity(0.1)),
+                        ),
+                        child: const Icon(Icons.history, color: Colors.white, size: 20),
+                      ),
+                    ),
                   ],
                 ),
               ).animate().fadeIn().slideX(),
@@ -223,6 +236,29 @@ class WalletScreen extends StatelessWidget {
                 ),
               ),
               const Spacer(),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppTheme.goldAccent.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: AppTheme.goldAccent.withOpacity(0.3)),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.verified, color: AppTheme.goldAccent, size: 12),
+                    const SizedBox(width: 4),
+                    Text(
+                      'Gold Member',
+                      style: AppTheme.bodySmall.copyWith(
+                        color: AppTheme.goldAccent,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 12),
               const Text(
                 '850 pts',
                 style: TextStyle(
@@ -287,52 +323,63 @@ class WalletScreen extends StatelessWidget {
         final tx = transactions[index];
         return Container(
           margin: const EdgeInsets.only(bottom: 12),
-          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: AppTheme.surfaceDark,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(color: Colors.white.withOpacity(0.05)),
           ),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: tx['color'].withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(tx['icon'], color: tx['color'], size: 24),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {},
+              borderRadius: BorderRadius.circular(20),
+              splashColor: tx['color'].withOpacity(0.1),
+              highlightColor: tx['color'].withOpacity(0.05),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
                   children: [
-                    Text(
-                      tx['title'],
-                      style: AppTheme.bodyMedium.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: tx['color'].withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(tx['icon'], color: tx['color'], size: 24),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            tx['title'],
+                            style: AppTheme.bodyMedium.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            tx['subtitle'],
+                            style: AppTheme.bodySmall.copyWith(
+                              color: Colors.white.withOpacity(0.5),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     Text(
-                      tx['subtitle'],
-                      style: AppTheme.bodySmall.copyWith(
-                        color: Colors.white.withOpacity(0.5),
+                      tx['amount'],
+                      style: TextStyle(
+                        color: tx['amount'].startsWith('+') ? AppTheme.neonGreen : Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
                       ),
                     ),
                   ],
                 ),
               ),
-              Text(
-                tx['amount'],
-                style: TextStyle(
-                  color: tx['amount'].startsWith('+') ? AppTheme.neonGreen : Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-            ],
+            ),
           ),
         );
       },
