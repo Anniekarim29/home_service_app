@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_theme.dart';
 import '../widgets/premium_background.dart';
+import 'help_center_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -67,7 +68,10 @@ class SettingsScreen extends StatelessWidget {
                             Icons.help_center_outlined,
                             'Help Center',
                             AppTheme.neonBlue,
-                            () => _showDummyDialog(context, 'Help Center'),
+                            () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const HelpCenterScreen()),
+                            ),
                           ),
                           _buildSettingsTile(
                             context,
