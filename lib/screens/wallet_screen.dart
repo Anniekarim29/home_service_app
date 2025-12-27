@@ -42,7 +42,17 @@ class WalletScreen extends StatelessWidget {
                     ),
                     const Spacer(),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Transaction History coming soon!',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            backgroundColor: AppTheme.surfaceDark,
+                          ),
+                        );
+                      },
                       child: Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
@@ -331,7 +341,17 @@ class WalletScreen extends StatelessWidget {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Transaction details coming soon!',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    backgroundColor: AppTheme.surfaceDark,
+                  ),
+                );
+              },
               borderRadius: BorderRadius.circular(20),
               splashColor: tx['color'].withOpacity(0.1),
               highlightColor: tx['color'].withOpacity(0.05),
