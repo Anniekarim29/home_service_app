@@ -69,6 +69,7 @@ class WalletScreen extends StatelessWidget {
 
               Expanded(
                 child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,11 +96,24 @@ class WalletScreen extends StatelessWidget {
                               fontSize: 18,
                             ),
                           ),
-                          Text(
-                            'See all',
-                            style: AppTheme.bodySmall.copyWith(
-                              color: AppTheme.neonBlue,
-                              fontWeight: FontWeight.bold,
+                          GestureDetector(
+                            onTap: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'All transactions view coming soon!',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  backgroundColor: AppTheme.surfaceDark,
+                                ),
+                              );
+                            },
+                            child: Text(
+                              'See all',
+                              style: AppTheme.bodySmall.copyWith(
+                                color: AppTheme.neonBlue,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
@@ -290,7 +304,7 @@ class WalletScreen extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            '150 points until your next reward!',
+            'Only 150 points to go for your next reward!',
             style: AppTheme.bodySmall.copyWith(
               color: Colors.white.withOpacity(0.5),
             ),
