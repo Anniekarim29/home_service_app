@@ -46,7 +46,7 @@ class WalletScreen extends StatelessWidget {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
-                              'Transaction History coming soon!',
+                              'Transaction History is coming soon!',
                               style: TextStyle(color: Colors.white),
                             ),
                             backgroundColor: AppTheme.surfaceDark,
