@@ -250,6 +250,133 @@ class _WalletScreenState extends State<WalletScreen> {
     );
   }
 
+  void _showTransactionDetails(Map<String, dynamic> tx) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) => Container(
+        decoration: BoxDecoration(
+          color: AppTheme.surfaceDark,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+          border: Border(top: BorderSide(color: Colors.white.withOpacity(0.1))),
+        ),
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Center(
+              child: Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            ),
+            const SizedBox(height: 32),
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: tx['color'].withOpacity(0.1),
+                shape: BoxShape.circle,
+                border: Border.all(color: tx['color'].withOpacity(0.3), width: 2),
+              ),
+              child: Icon(tx['icon'], color: tx['color'], size: 40),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              tx['amount'],
+              style: AppTheme.displayLarge.copyWith(
+                color: tx['amount'].startsWith('+') ? AppTheme.neonGreen : Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 36,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              tx['title'],
+              style: AppTheme.bodyLarge.copyWith(
+                color: Colors.white.withOpacity(0.7),
+                fontSize: 18,
+              ),
+            ),
+            const SizedBox(height: 32),
+            
+            // Details Row
+            _buildDetailRow('Status', 'Success', AppTheme.neonGreen),
+            _buildDetailRow('Date', tx['subtitle'], Colors.white),
+            _buildDetailRow('Transaction ID', '#${DateTime.now().millisecondsSinceEpoch.toString().substring(5)}', Colors.white.withOpacity(0.5)),
+            
+            const SizedBox(height: 32),
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: OutlinedButton(
+                onPressed: () {
+                   Navigator.pop(context);
+                   ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text('Receipt downloaded!'),
+                      backgroundColor: AppTheme.surfaceDark,
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+                },
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(color: Colors.white.withOpacity(0.2)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.share_outlined, color: Colors.white),
+                    SizedBox(width: 8),
+                    Text(
+                      'Share Receipt',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDetailRow(String label, String value, Color valueColor) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: AppTheme.bodyMedium.copyWith(color: Colors.white.withOpacity(0.5)),
+          ),
+          Text(
+            value,
+            style: AppTheme.bodyMedium.copyWith(
+              color: valueColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -578,17 +705,7 @@ class _WalletScreenState extends State<WalletScreen> {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: const Text(
-                      'Transaction details coming soon!',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    backgroundColor: AppTheme.surfaceDark,
-                  ),
-                );
-              },
+              onTap: () => _showTransactionDetails(tx),
               borderRadius: BorderRadius.circular(20),
               splashColor: tx['color'].withOpacity(0.1),
               highlightColor: tx['color'].withOpacity(0.05),
