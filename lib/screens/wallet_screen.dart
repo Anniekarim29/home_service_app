@@ -127,6 +127,129 @@ class _WalletScreenState extends State<WalletScreen> {
     );
   }
 
+  void _showSendSheet() {
+    final amountController = TextEditingController();
+    final recipientController = TextEditingController();
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppTheme.surfaceDark,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+            border: Border(top: BorderSide(color: Colors.white.withOpacity(0.1))),
+          ),
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              Text(
+                'Send Money',
+                style: AppTheme.displayMedium.copyWith(fontSize: 24, color: Colors.white),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Enter recipient and amount',
+                style: AppTheme.bodyMedium.copyWith(color: Colors.white54),
+              ),
+              const SizedBox(height: 24),
+              TextField(
+                controller: recipientController,
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  labelText: 'Recipient (Name or ID)',
+                  labelStyle: TextStyle(color: Colors.white.withOpacity(0.5)),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.white.withOpacity(0.1)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: AppTheme.neonBlue),
+                  ),
+                  fillColor: Colors.white.withOpacity(0.05),
+                  filled: true,
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: amountController,
+                keyboardType: TextInputType.number,
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  labelText: 'Amount (\$)',
+                  labelStyle: TextStyle(color: Colors.white.withOpacity(0.5)),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.white.withOpacity(0.1)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: AppTheme.neonBlue),
+                  ),
+                  fillColor: Colors.white.withOpacity(0.05),
+                  filled: true,
+                ),
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (recipientController.text.isNotEmpty && amountController.text.isNotEmpty) {
+                       Navigator.pop(context);
+                       ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Successfully sent \$${amountController.text} to ${recipientController.text}!'),
+                          backgroundColor: AppTheme.neonBlue.withOpacity(0.8),
+                          behavior: SnackBarBehavior.floating,
+                        ),
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.neonBlue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text(
+                    'Send Now',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -309,14 +432,7 @@ class _WalletScreenState extends State<WalletScreen> {
             children: [
               _buildActionButton(Icons.add, 'Top Up', Colors.white.withOpacity(0.2), onTap: _showTopUpSheet),
               const SizedBox(width: 12),
-              _buildActionButton(Icons.file_upload_outlined, 'Send', Colors.white.withOpacity(0.1), onTap: () {
-                 ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: const Text('Send feature coming soon!'),
-                      backgroundColor: AppTheme.surfaceDark,
-                    ),
-                  );
-              }),
+              _buildActionButton(Icons.file_upload_outlined, 'Send', Colors.white.withOpacity(0.1), onTap: _showSendSheet),
             ],
           ),
         ],
