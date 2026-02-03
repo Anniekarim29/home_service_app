@@ -4,8 +4,15 @@ import '../theme/app_theme.dart';
 import '../widgets/premium_background.dart';
 import 'help_center_screen.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  bool _notificationsEnabled = true;
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +60,30 @@ class SettingsScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     children: [
+                      _buildSettingsSection(
+                        'Preferences',
+                        [
+                          _buildSwitchTile(
+                            Icons.notifications_outlined,
+                            'Notifications',
+                            AppTheme.neonPurple,
+                            _notificationsEnabled,
+                            (value) {
+                              setState(() {
+                                _notificationsEnabled = value;
+                              });
+                            },
+                          ),
+                          _buildSettingsTile(
+                            context,
+                            Icons.language_outlined,
+                            'Language',
+                            AppTheme.neonBlue,
+                            () => _showDummyDialog(context, 'Language'),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 30),
                       _buildSettingsSection(
                         'Information',
                         [
@@ -211,6 +242,45 @@ class SettingsScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildSwitchTile(
+    IconData icon,
+    String title,
+    Color iconColor,
+    bool value,
+    ValueChanged<bool> onChanged,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: iconColor.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(icon, color: iconColor, size: 20),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Text(
+              title,
+              style: AppTheme.bodyLarge.copyWith(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+            ),
+          ),
+          Switch.adaptive(
+            value: value,
+            onChanged: onChanged,
+            activeColor: iconColor,
+          ),
+        ],
       ),
     );
   }
