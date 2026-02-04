@@ -413,17 +413,7 @@ class _WalletScreenState extends State<WalletScreen> {
                     ),
                     const Spacer(),
                     GestureDetector(
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: const Text(
-                              'Transaction History is coming soon!',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            backgroundColor: AppTheme.surfaceDark,
-                          ),
-                        );
-                      },
+                      onTap: _showAllTransactions,
                       child: Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
@@ -468,17 +458,7 @@ class _WalletScreenState extends State<WalletScreen> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: const Text(
-                                    'All transactions history view is coming soon!',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  backgroundColor: AppTheme.surfaceDark,
-                                ),
-                              );
-                            },
+                            onTap: _showAllTransactions,
                             child: Text(
                               'See all',
                               style: AppTheme.bodySmall.copyWith(
@@ -498,6 +478,134 @@ class _WalletScreenState extends State<WalletScreen> {
                       const SizedBox(height: 30),
                     ],
                   ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showAllTransactions() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) => DraggableScrollableSheet(
+        initialChildSize: 0.7,
+        minChildSize: 0.5,
+        maxChildSize: 0.95,
+        builder: (_, controller) => Container(
+          decoration: BoxDecoration(
+            color: AppTheme.surfaceDark,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+            border: Border(top: BorderSide(color: Colors.white.withOpacity(0.1))),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            children: [
+              const SizedBox(height: 16),
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Transaction History',
+                    style: AppTheme.displayMedium.copyWith(fontSize: 24, color: Colors.white),
+                  ),
+                  IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.05),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.close, color: Colors.white, size: 20),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: ListView.builder(
+                  controller: controller, // Connect scrolling to the sheet
+                  itemCount: _transactions.length,
+                  itemBuilder: (context, index) {
+                    final tx = _transactions[index];
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.03),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: Colors.white.withOpacity(0.05)),
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () => _showTransactionDetails(tx),
+                          borderRadius: BorderRadius.circular(20),
+                          splashColor: tx['color'].withOpacity(0.1),
+                          highlightColor: tx['color'].withOpacity(0.05),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: tx['color'].withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Icon(tx['icon'], color: tx['color'], size: 24),
+                                ),
+                                const SizedBox(width: 16),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        tx['title'],
+                                        style: AppTheme.bodyMedium.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        tx['subtitle'],
+                                        style: AppTheme.bodySmall.copyWith(
+                                          color: Colors.white.withOpacity(0.5),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Text(
+                                  tx['amount'],
+                                  style: TextStyle(
+                                    color: tx['amount'].startsWith('+') ? AppTheme.neonGreen : Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],
