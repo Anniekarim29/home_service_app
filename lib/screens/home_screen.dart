@@ -6,6 +6,8 @@ import 'services_screen.dart';
 import 'details_screen.dart';
 import 'notifications_screen.dart';
 import 'search_screen.dart';
+import 'favorites_screen.dart';
+import '../services/favorites_manager.dart';
 import '../widgets/premium_background.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -73,7 +75,77 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const FavoritesScreen(),
+                              ),
+                            );
+                          },
+                          child: Stack(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.surfaceDark,
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppTheme.neonPurple.withOpacity(0.3),
+                                      blurRadius: 15,
+                                    ),
+                                  ],
+                                  border: Border.all(
+                                    color: Colors.white.withOpacity(0.1),
+                                  ),
+                                ),
+                                child: const Icon(
+                                  Icons.favorite,
+                                  color: Colors.red,
+                                  size: 22,
+                                ),
+                              ),
+                              Positioned(
+                                right: 0,
+                                top: 0,
+                                child: ListenableBuilder(
+                                  listenable: FavoritesManager(),
+                                  builder: (context, _) {
+                                    final count = FavoritesManager().favoritesCount;
+                                    if (count == 0) return const SizedBox.shrink();
+                                    return Container(
+                                      padding: const EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.neonGreen,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: AppTheme.backgroundDark,
+                                          width: 2,
+                                        ),
+                                      ),
+                                      constraints: const BoxConstraints(
+                                        minWidth: 18,
+                                        minHeight: 18,
+                                      ),
+                                      child: Text(
+                                        count > 9 ? '9+' : count.toString(),
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 12),
                         GestureDetector(
                           onTap: () {
                             Navigator.push(

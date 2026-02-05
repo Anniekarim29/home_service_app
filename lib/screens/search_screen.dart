@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'dart:ui';
 import '../theme/app_theme.dart';
 import '../widgets/premium_background.dart';
+import '../services/favorites_manager.dart';
 import 'details_screen.dart';
 
 class SearchData {
@@ -37,6 +38,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
   final List<String> _searchHistory = [];
+  final FavoritesManager _favoritesManager = FavoritesManager();
   String _selectedCategory = 'All';
   String _searchQuery = '';
 
@@ -755,6 +757,49 @@ class _SearchScreenState extends State<SearchScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
+                        ListenableBuilder(
+                          listenable: _favoritesManager,
+                          builder: (context, _) {
+                            final isFavorite = _favoritesManager.isFavorite(service.title);
+                            return GestureDetector(
+                              onTap: () {
+                                final favoriteService = FavoriteService(
+                                  id: service.title,
+                                  title: service.title,
+                                  subtitle: service.subtitle,
+                                  price: service.price,
+                                  originalPrice: service.originalPrice,
+                                  category: service.category,
+                                  iconName: service.icon.toString().split('(').last.split(')').first.split('.').last,
+                                  colorHex: '#${service.color.value.toRadixString(16).substring(2)}',
+                                  rating: service.rating,
+                                );
+                                _favoritesManager.toggleFavorite(favoriteService);
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: isFavorite
+                                      ? Colors.red.withOpacity(0.2)
+                                      : Colors.white.withOpacity(0.05),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  isFavorite ? Icons.favorite : Icons.favorite_border,
+                                  color: isFavorite ? Colors.red : Colors.white54,
+                                  size: 20,
+                                ),
+                              ),
+                            ).animate(
+                              target: isFavorite ? 1 : 0,
+                            ).scale(
+                              duration: 200.ms,
+                              begin: const Offset(1, 1),
+                              end: const Offset(1.2, 1.2),
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 12),
                         Text(
                           service.price,
                           style: AppTheme.bodyLarge.copyWith(
