@@ -5,6 +5,7 @@ import '../theme/app_theme.dart';
 import 'services_screen.dart';
 import 'details_screen.dart';
 import 'notifications_screen.dart';
+import 'search_screen.dart';
 import '../widgets/premium_background.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -145,52 +146,58 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(height: 25),
 
                 // === SEARCH: Premium Search Bar ===
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.05),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.white.withOpacity(0.1)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppTheme.neonBlue.withOpacity(0.1),
-                        blurRadius: 20,
-                        offset: const Offset(0, 5),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SearchScreen(),
                       ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.search, color: Colors.white54, size: 22),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: TextField(
-                          style: const TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
-                            hintText: 'Search for services...',
-                            hintStyle: AppTheme.bodyMedium.copyWith(
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 16,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.05),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: Colors.white.withOpacity(0.1)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppTheme.neonBlue.withOpacity(0.1),
+                          blurRadius: 20,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.search, color: Colors.white54, size: 22),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            'Search for services...',
+                            style: AppTheme.bodyMedium.copyWith(
                               color: Colors.white38,
                             ),
-                            border: InputBorder.none,
                           ),
                         ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          gradient: AppTheme.neonGradient,
-                          borderRadius: BorderRadius.circular(12),
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            gradient: AppTheme.neonGradient,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(
+                            Icons.tune,
+                            color: Colors.white,
+                            size: 18,
+                          ),
                         ),
-                        child: const Icon(
-                          Icons.tune,
-                          color: Colors.white,
-                          size: 18,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ).animate().fadeIn(delay: 100.ms).slideY(begin: 0.2),
 
