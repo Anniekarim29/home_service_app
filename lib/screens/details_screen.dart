@@ -3,6 +3,7 @@ import '../theme/app_theme.dart';
 import '../widgets/premium_background.dart';
 
 import 'checkout_screen.dart';
+import 'reviews_screen.dart';
 
 class DetailsScreen extends StatefulWidget {
   final String title;
@@ -268,6 +269,137 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     Text(
                       'Our ${widget.title} service delivers a thorough, spotless clean for every corner of your house. Enjoy a fresh, hygienic, and comfortable living space with professional care.',
                       style: AppTheme.bodyMedium.copyWith(height: 1.5),
+                    ),
+                    
+                    const SizedBox(height: 30),
+                    
+                    // Reviews Section
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Customer Reviews',
+                          style: AppTheme.displayMedium.copyWith(fontSize: 18),
+                        ),
+                        Row(
+                          children: [
+                            const Icon(Icons.star, color: Colors.amber, size: 20),
+                            const SizedBox(width: 4),
+                            Text(
+                              '4.6',
+                              style: AppTheme.displayMedium.copyWith(fontSize: 16),
+                            ),
+                            Text(
+                              ' (342)',
+                              style: AppTheme.bodyMedium,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 15),
+                    
+                    // Sample Reviews Preview
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 10,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              const CircleAvatar(
+                                radius: 20,
+                                backgroundColor: Color(0xFFE1BEE7),
+                                child: Text('👩', style: TextStyle(fontSize: 18)),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Sarah Ahmed',
+                                      style: AppTheme.displayMedium.copyWith(fontSize: 14),
+                                    ),
+                                    Row(
+                                      children: List.generate(5, (index) => const Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                        size: 12,
+                                      )),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Absolutely fantastic service! The team was professional and thorough...',
+                            style: AppTheme.bodyMedium.copyWith(fontSize: 13),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                    
+                    const SizedBox(height: 15),
+                    
+                    // View All Reviews Button
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ReviewsScreen(
+                                serviceTitle: widget.title,
+                                averageRating: 4.6,
+                                totalReviews: 342,
+                              ),
+                            ),
+                          );
+                        },
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(color: AppTheme.primaryColor.withOpacity(0.3)),
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'View All Reviews',
+                              style: TextStyle(
+                                color: AppTheme.primaryColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 14,
+                              color: AppTheme.primaryColor,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                     
                     const SizedBox(height: 100), // Space for FAB
