@@ -5,6 +5,7 @@ import '../widgets/premium_background.dart';
 import 'notifications_screen.dart';
 import 'settings_screen.dart';
 import 'wallet_screen.dart';
+import 'saved_addresses_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -144,7 +145,15 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      _buildSettingsTile(Icons.location_on_outlined, 'Saved Addresses', AppTheme.goldAccent),
+                      _buildSettingsTile(
+                        Icons.location_on_outlined,
+                        'Saved Addresses',
+                        AppTheme.goldAccent,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const SavedAddressesScreen()),
+                        ),
+                      ),
                       const SizedBox(height: 20),
                       _buildSettingsTile(
                         Icons.notifications_outlined,
