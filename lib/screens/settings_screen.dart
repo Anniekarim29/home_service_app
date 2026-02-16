@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_theme.dart';
 import '../widgets/premium_background.dart';
 import 'help_center_screen.dart';
+import 'notification_preferences_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -12,8 +13,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool _notificationsEnabled = true;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,16 +62,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       _buildSettingsSection(
                         'Preferences',
                         [
-                          _buildSwitchTile(
+                          _buildSettingsTile(
+                            context,
                             Icons.notifications_outlined,
-                            'Notifications',
+                            'Notification Preferences',
                             AppTheme.neonPurple,
-                            _notificationsEnabled,
-                            (value) {
-                              setState(() {
-                                _notificationsEnabled = value;
-                              });
-                            },
+                            () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const NotificationPreferencesScreen(),
+                              ),
+                            ),
                           ),
                           _buildSettingsTile(
                             context,
