@@ -2,9 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_theme.dart';
 import '../widgets/premium_background.dart';
+import 'rate_service_screen.dart';
+import '../services/rating_service.dart';
 
-class BookingsScreen extends StatelessWidget {
+class BookingsScreen extends StatefulWidget {
   const BookingsScreen({super.key});
+
+  @override
+  State<BookingsScreen> createState() => _BookingsScreenState();
+}
+
+class _BookingsScreenState extends State<BookingsScreen> {
+  String _selectedFilter = 'Upcoming';
+  final RatingService _ratingService = RatingService();
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +64,11 @@ class BookingsScreen extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      _buildFilterChip('Upcoming', true),
+                      _buildFilterChip('Upcoming', _selectedFilter == 'Upcoming'),
                       const SizedBox(width: 15),
-                      _buildFilterChip('Completed', false),
+                      _buildFilterChip('Completed', _selectedFilter == 'Completed'),
                       const SizedBox(width: 15),
-                      _buildFilterChip('Cancelled', false),
+                      _buildFilterChip('Cancelled', _selectedFilter == 'Cancelled'),
                     ],
                   ),
                 ).animate().fadeIn(delay: 100.ms),
@@ -70,10 +80,12 @@ class BookingsScreen extends StatelessWidget {
                   child: ListView(
                     children: [
                       _buildBookingCard(
+                        'booking_1',
                         'Home Cleaning',
                         'Sara Ahmed',
+                        'provider_1',
                         'Today, 10:00 AM - 12:00 PM',
-                        'In Progress',
+                        'Completed',
                         AppTheme.neonGreen,
                         Icons.cleaning_services,
                         '\$45',
@@ -83,8 +95,10 @@ class BookingsScreen extends StatelessWidget {
                       const SizedBox(height: 15),
                       
                       _buildBookingCard(
+                        'booking_2',
                         'Plumbing Repair',
                         'Ali Hassan',
+                        'provider_2',
                         'Tomorrow, 2:00 PM - 4:00 PM',
                         'Confirmed',
                         AppTheme.neonBlue,
@@ -96,8 +110,10 @@ class BookingsScreen extends StatelessWidget {
                       const SizedBox(height: 15),
                       
                       _buildBookingCard(
+                        'booking_3',
                         'AC Service',
                         'Usman Gondal',
+                        'provider_3',
                         'Dec 12, 11:30 AM - 1:30 PM',
                         'Pending',
                         AppTheme.goldAccent,
@@ -109,8 +125,10 @@ class BookingsScreen extends StatelessWidget {
                       const SizedBox(height: 15),
                       
                       _buildBookingCard(
+                        'booking_4',
                         'Electrical Work',
                         'Bilal Khan',
+                        'provider_4',
                         'Dec 15, 9:00 AM - 11:00 AM',
                         'Scheduled',
                         AppTheme.neonPurple,
@@ -132,37 +150,46 @@ class BookingsScreen extends StatelessWidget {
   }
 
   Widget _buildFilterChip(String label, bool isSelected) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-      decoration: BoxDecoration(
-        gradient: isSelected ? AppTheme.neonGradient : null,
-        color: isSelected ? null : AppTheme.surfaceDark,
-        borderRadius: BorderRadius.circular(25),
-        border: Border.all(
-          color: isSelected ? Colors.transparent : Colors.white.withOpacity(0.1),
-        ),
-        boxShadow: isSelected ? [
-          BoxShadow(
-            color: AppTheme.neonPurple.withOpacity(0.4),
-            blurRadius: 15,
-            offset: const Offset(0, 5),
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedFilter = label;
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        decoration: BoxDecoration(
+          gradient: isSelected ? AppTheme.neonGradient : null,
+          color: isSelected ? null : AppTheme.surfaceDark,
+          borderRadius: BorderRadius.circular(25),
+          border: Border.all(
+            color: isSelected ? Colors.transparent : Colors.white.withOpacity(0.1),
           ),
-        ] : [],
-      ),
-      child: Text(
-        label,
-        style: AppTheme.bodyLarge.copyWith(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-          fontSize: 15,
+          boxShadow: isSelected ? [
+            BoxShadow(
+              color: AppTheme.neonPurple.withOpacity(0.4),
+              blurRadius: 15,
+              offset: const Offset(0, 5),
+            ),
+          ] : [],
+        ),
+        child: Text(
+          label,
+          style: AppTheme.bodyLarge.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 15,
+          ),
         ),
       ),
     );
   }
 
   Widget _buildBookingCard(
+    String bookingId,
     String title,
     String providerName,
+    String providerId,
     String dateTime,
     String status,
     Color statusColor,
@@ -170,6 +197,8 @@ class BookingsScreen extends StatelessWidget {
     String price,
     String rating,
   ) {
+    final bool isCompleted = status == 'Completed';
+    final bool hasRated = _ratingService.hasRated(bookingId);
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -338,6 +367,64 @@ class BookingsScreen extends StatelessWidget {
               ),
             ],
           ),
+          
+          // Rate Service Button (only for completed bookings)
+          if (isCompleted) ...[
+            const SizedBox(height: 16),
+            Container(
+              height: 1,
+              color: Colors.white.withOpacity(0.05),
+            ),
+            const SizedBox(height: 16),
+            GestureDetector(
+              onTap: hasRated ? null : () async {
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RateServiceScreen(
+                      bookingId: bookingId,
+                      serviceProviderId: providerId,
+                      serviceName: title,
+                      providerName: providerName,
+                    ),
+                  ),
+                );
+                if (result == true && mounted) {
+                  setState(() {}); // Refresh to show rated status
+                }
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                decoration: BoxDecoration(
+                  gradient: hasRated ? null : AppTheme.neonGradient,
+                  color: hasRated ? AppTheme.surfaceDark.withOpacity(0.3) : null,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: hasRated ? Colors.white.withOpacity(0.1) : Colors.transparent,
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      hasRated ? Icons.check_circle : Icons.star_outline,
+                      color: hasRated ? AppTheme.neonGreen : Colors.white,
+                      size: 20,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      hasRated ? 'Service Rated' : 'Rate Service',
+                      style: AppTheme.bodyLarge.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );

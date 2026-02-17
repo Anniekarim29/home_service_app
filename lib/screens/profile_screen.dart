@@ -6,6 +6,7 @@ import 'notifications_screen.dart';
 import 'settings_screen.dart';
 import 'wallet_screen.dart';
 import 'saved_addresses_screen.dart';
+import 'service_analytics_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -134,6 +135,16 @@ class ProfileScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       _buildSettingsTile(Icons.person_outline, 'Edit Profile', AppTheme.neonBlue),
+                      const SizedBox(height: 20),
+                      _buildSettingsTile(
+                        Icons.analytics_outlined,
+                        'Service Analytics',
+                        AppTheme.goldAccent,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const ServiceAnalyticsScreen()),
+                        ),
+                      ),
                       const SizedBox(height: 20),
                       _buildSettingsTile(
                         Icons.payment_outlined,
