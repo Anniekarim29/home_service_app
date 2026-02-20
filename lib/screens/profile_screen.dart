@@ -7,6 +7,7 @@ import 'settings_screen.dart';
 import 'wallet_screen.dart';
 import 'saved_addresses_screen.dart';
 import 'service_analytics_screen.dart';
+import 'referral_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -143,6 +144,16 @@ class ProfileScreen extends StatelessWidget {
                         onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => const ServiceAnalyticsScreen()),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      _buildSettingsTile(
+                        Icons.card_giftcard,
+                        'Refer and Earn',
+                        AppTheme.neonPurple,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const ReferralScreen()),
                         ),
                       ),
                       const SizedBox(height: 20),
