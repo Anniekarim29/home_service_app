@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_theme.dart';
 import '../widgets/premium_background.dart';
+import '../services/promo_service.dart';
 
 class CheckoutScreen extends StatefulWidget {
   final String serviceTitle;
@@ -22,9 +23,13 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
-  int _selectedDateIndex = 0;
   int _selectedTimeIndex = 0;
   String _selectedPaymentMethod = 'Credit Card';
+  
+  final _promoController = TextEditingController();
+  final _promoService = PromoService();
+  double _discountMultiplier = 0.0;
+  String? _appliedCode;
 
   final List<String> _dates = ['Today', 'Tomorrow', 'Dec 14', 'Dec 15', 'Dec 16'];
   final List<String> _times = ['10:00 AM', '12:00 PM', '02:00 PM', '04:00 PM'];
@@ -176,6 +181,54 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
                       const SizedBox(height: 30),
 
+                      // Promo Code Section
+                      Text(
+                        'Promo Code',
+                        style: AppTheme.bodyLarge.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: _promoController,
+                              style: const TextStyle(color: Colors.white),
+                              decoration: InputDecoration(
+                                hintText: 'Enter code (e.g. SAVE10)',
+                                hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(color: Colors.white.withOpacity(0.1)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: const BorderSide(color: AppTheme.neonPurple),
+                                ),
+                                fillColor: Colors.white.withOpacity(0.05),
+                                filled: true,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          ElevatedButton(
+                            onPressed: _applyPromoCode,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppTheme.neonPurple,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                            ),
+                            child: const Text('Apply', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                          ),
+                        ],
+                      ).animate().fadeIn(delay: 350.ms),
+
+                      const SizedBox(height: 30),
+
                       // Order Summary
                       Container(
                         padding: const EdgeInsets.all(20),
@@ -186,12 +239,20 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         child: Column(
                           children: [
                             _buildSummaryRow('Service', widget.price),
+                            if (_discountMultiplier > 0) ...[
+                              const SizedBox(height: 10),
+                              _buildSummaryRow(
+                                'Discount (${(_discountMultiplier * 100).toInt()}%)', 
+                                '-\$${_calculateDiscount().toStringAsFixed(2)}',
+                                valueColor: AppTheme.neonGreen,
+                              ),
+                            ],
                             const SizedBox(height: 10),
                             _buildSummaryRow('Tax', '\$5.00'),
                             const SizedBox(height: 10),
                             const Divider(color: Colors.white24),
                             const SizedBox(height: 10),
-                            _buildSummaryRow('Total', '\$${(int.tryParse(widget.price.replaceAll(RegExp(r'[^0-9]'), '')) ?? 0) + 5}', isTotal: true),
+                            _buildSummaryRow('Total', '\$${_calculateTotal().toStringAsFixed(2)}', isTotal: true),
                           ],
                         ),
                       ).animate().fadeIn(delay: 400.ms).slideY(begin: 0.1),
@@ -331,7 +392,48 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  Widget _buildSummaryRow(String label, String value, {bool isTotal = false}) {
+  void _applyPromoCode() {
+    final code = _promoController.text.trim();
+    if (code.isEmpty) return;
+
+    final discount = _promoService.validateCode(code);
+    setState(() {
+      if (discount != null) {
+        _discountMultiplier = discount;
+        _appliedCode = code;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Promo code "$code" applied!'),
+            backgroundColor: AppTheme.neonGreen,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      } else {
+        _discountMultiplier = 0.0;
+        _appliedCode = null;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Invalid promo code.'),
+            backgroundColor: Colors.redAccent,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    });
+  }
+
+  double _calculateDiscount() {
+    final basePrice = double.tryParse(widget.price.replaceAll(RegExp(r'[^0-9.]'), '')) ?? 0.0;
+    return basePrice * _discountMultiplier;
+  }
+
+  double _calculateTotal() {
+    final basePrice = double.tryParse(widget.price.replaceAll(RegExp(r'[^0-9.]'), '')) ?? 0.0;
+    final discount = _calculateDiscount();
+    return (basePrice - discount) + 5.0; // 5.0 is tax
+  }
+
+  Widget _buildSummaryRow(String label, String value, {bool isTotal = false, Color? valueColor}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -346,7 +448,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         Text(
           value,
           style: TextStyle(
-            color: isTotal ? AppTheme.neonGreen : Colors.white,
+            color: valueColor ?? (isTotal ? AppTheme.neonGreen : Colors.white),
             fontSize: isTotal ? 18 : 14,
             fontWeight: isTotal ? FontWeight.bold : FontWeight.bold,
           ),
