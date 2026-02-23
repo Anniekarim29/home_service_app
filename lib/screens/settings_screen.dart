@@ -4,6 +4,7 @@ import '../theme/app_theme.dart';
 import '../widgets/premium_background.dart';
 import 'help_center_screen.dart';
 import 'notification_preferences_screen.dart';
+import 'feedback_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -110,6 +111,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             'Contact Us',
                             AppTheme.neonGreen,
                             () => _showDummyDialog(context, 'Contact Us'),
+                          ),
+                          _buildSettingsTile(
+                            context,
+                            Icons.rate_review_outlined,
+                            'Give App Feedback',
+                            AppTheme.goldAccent,
+                            () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const FeedbackScreen()),
+                            ),
                           ),
                         ],
                       ),

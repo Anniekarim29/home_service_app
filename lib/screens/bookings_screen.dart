@@ -197,8 +197,11 @@ class _BookingsScreenState extends State<BookingsScreen> {
     String price,
     String rating,
   ) {
-    final bool isCompleted = status == 'Completed';
+    bool isCompleted = status == 'Completed';
+    bool isCancelled = status == 'Cancelled';
+    bool canCancel = !isCompleted && !isCancelled;
     final bool hasRated = _ratingService.hasRated(bookingId);
+    
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -252,7 +255,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
                     const SizedBox(height: 6),
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.person_outline,
                           color: Colors.white60,
                           size: 16,
@@ -309,7 +312,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
               Expanded(
                 child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.access_time,
                       color: AppTheme.neonBlue,
                       size: 18,
@@ -344,7 +347,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
                     const SizedBox(width: 4),
                     Text(
                       rating,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.amber,
                         fontWeight: FontWeight.bold,
                         fontSize: 13,
@@ -368,63 +371,145 @@ class _BookingsScreenState extends State<BookingsScreen> {
             ],
           ),
           
-          // Rate Service Button (only for completed bookings)
-          if (isCompleted) ...[
+          // Action Buttons
+          if (isCompleted || canCancel) ...[
             const SizedBox(height: 16),
             Container(
               height: 1,
               color: Colors.white.withOpacity(0.05),
             ),
             const SizedBox(height: 16),
-            GestureDetector(
-              onTap: hasRated ? null : () async {
-                final result = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RateServiceScreen(
-                      bookingId: bookingId,
-                      serviceProviderId: providerId,
-                      serviceName: title,
-                      providerName: providerName,
-                    ),
-                  ),
-                );
-                if (result == true && mounted) {
-                  setState(() {}); // Refresh to show rated status
-                }
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                decoration: BoxDecoration(
-                  gradient: hasRated ? null : AppTheme.neonGradient,
-                  color: hasRated ? AppTheme.surfaceDark.withOpacity(0.3) : null,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: hasRated ? Colors.white.withOpacity(0.1) : Colors.transparent,
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      hasRated ? Icons.check_circle : Icons.star_outline,
-                      color: hasRated ? AppTheme.neonGreen : Colors.white,
-                      size: 20,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      hasRated ? 'Service Rated' : 'Rate Service',
-                      style: AppTheme.bodyLarge.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
+            if (isCompleted)
+              GestureDetector(
+                onTap: hasRated ? null : () async {
+                  final result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RateServiceScreen(
+                        bookingId: bookingId,
+                        serviceProviderId: providerId,
+                        serviceName: title,
+                        providerName: providerName,
                       ),
                     ),
-                  ],
+                  );
+                  if (result == true && mounted) {
+                    setState(() {}); // Refresh to show rated status
+                  }
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  decoration: BoxDecoration(
+                    gradient: hasRated ? null : AppTheme.neonGradient,
+                    color: hasRated ? AppTheme.surfaceDark.withOpacity(0.3) : null,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: hasRated ? Colors.white.withOpacity(0.1) : Colors.transparent,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        hasRated ? Icons.check_circle : Icons.star_outline,
+                        color: hasRated ? AppTheme.neonGreen : Colors.white,
+                        size: 20,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        hasRated ? 'Service Rated' : 'Rate Service',
+                        style: AppTheme.bodyLarge.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
+            if (canCancel)
+              GestureDetector(
+                onTap: () => _showCancelDialog(bookingId, title),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.red.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.red.withOpacity(0.3),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.cancel_outlined,
+                        color: Colors.redAccent,
+                        size: 20,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Cancel Booking',
+                        style: AppTheme.bodyLarge.copyWith(
+                          color: Colors.redAccent,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
           ],
+        ],
+      ),
+    );
+  }
+
+  void _showCancelDialog(String bookingId, String serviceName) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: AppTheme.surfaceDark,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Text(
+          'Cancel $serviceName?',
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        content: Text(
+          'Are you sure you want to cancel this booking? This action cannot be undone.',
+          style: TextStyle(color: Colors.white.withOpacity(0.7)),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              'No, Keep It',
+              style: TextStyle(color: Colors.white.withOpacity(0.5)),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              setState(() {
+                // Mocking the cancellation logic by just refreshing the UI
+                // In a real app, this would update a service or database
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('$serviceName cancelled successfully'),
+                    backgroundColor: Colors.redAccent,
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
+              });
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.redAccent,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            ),
+            child: const Text('Yes, Cancel', style: TextStyle(color: Colors.white)),
+          ),
         ],
       ),
     );
