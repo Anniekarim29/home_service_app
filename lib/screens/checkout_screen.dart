@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_theme.dart';
 import '../widgets/premium_background.dart';
 import '../services/promo_service.dart';
+import 'coupons_screen.dart';
 
 class CheckoutScreen extends StatefulWidget {
   final String serviceTitle;
@@ -182,12 +183,30 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       const SizedBox(height: 30),
 
                       // Promo Code Section
-                      Text(
-                        'Promo Code',
-                        style: AppTheme.bodyLarge.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Promo Code',
+                            style: AppTheme.bodyLarge.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const CouponsScreen()),
+                            ),
+                            child: Text(
+                              'View Coupons',
+                              style: AppTheme.bodySmall.copyWith(
+                                color: AppTheme.neonBlue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 15),
                       Row(

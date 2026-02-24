@@ -9,6 +9,7 @@ import 'search_screen.dart';
 import 'favorites_screen.dart';
 import '../services/favorites_manager.dart';
 import '../widgets/premium_background.dart';
+import 'tracking_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -760,9 +761,17 @@ class HomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: _buildQuickActionButton(
-                        '📍 Track Booking',
-                        AppTheme.neonBlue,
+                      child: GestureDetector(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const TrackingScreen(),
+                          ),
+                        ),
+                        child: _buildQuickActionButton(
+                          '📍 Track Booking',
+                          AppTheme.neonBlue,
+                        ),
                       ),
                     ),
                   ],
