@@ -5,6 +5,8 @@ import '../widgets/premium_background.dart';
 import 'help_center_screen.dart';
 import 'notification_preferences_screen.dart';
 import 'feedback_screen.dart';
+import 'membership_screen.dart';
+import 'gift_card_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -60,6 +62,36 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     children: [
+                      _buildSettingsSection(
+                        'Premium & Gifts',
+                        [
+                          _buildSettingsTile(
+                            context,
+                            Icons.star_outline,
+                            'Prime Membership',
+                            AppTheme.goldAccent,
+                            () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const MembershipScreen(),
+                              ),
+                            ),
+                          ),
+                          _buildSettingsTile(
+                            context,
+                            Icons.card_giftcard_outlined,
+                            'Gift Cards',
+                            AppTheme.neonPurple,
+                            () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const GiftCardScreen(),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 30),
                       _buildSettingsSection(
                         'Preferences',
                         [
