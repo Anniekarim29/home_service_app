@@ -451,14 +451,70 @@ class _SearchScreenState extends State<SearchScreen> {
         children: [
           // Recent Searches
           if (_searchHistory.isNotEmpty) ...[
-            Text(
-              'Recent Searches',
-              style: AppTheme.displayMedium.copyWith(
-                fontSize: 20,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ).animate().fadeIn(delay: 200.ms),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Recent Searches',
+                  style: AppTheme.displayMedium.copyWith(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ).animate().fadeIn(delay: 200.ms),
+                TextButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        backgroundColor: AppTheme.surfaceDark,
+                        title: Text(
+                          'Clear History?',
+                          style: AppTheme.displayMedium.copyWith(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        ),
+                        content: Text(
+                          'This will remove all your recent searches.',
+                          style: AppTheme.bodyMedium.copyWith(
+                            color: Colors.white70,
+                          ),
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text(
+                              'Cancel',
+                              style: TextStyle(color: Colors.white60),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              setState(() {
+                                _searchHistory.clear();
+                              });
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              'Clear All',
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  child: Text(
+                    'Clear All',
+                    style: TextStyle(
+                      color: AppTheme.neonPurple,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ).animate().fadeIn(delay: 200.ms),
+              ],
+            ),
             const SizedBox(height: 15),
             ...List.generate(
               _searchHistory.length,
