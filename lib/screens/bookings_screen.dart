@@ -77,9 +77,24 @@ class _BookingsScreenState extends State<BookingsScreen> {
                 
                 // Bookings List
                 Expanded(
-                  child: ListView(
-                    children: [
-                      _buildBookingCard(
+                  child: RefreshIndicator(
+                    color: AppTheme.neonPurple,
+                    backgroundColor: AppTheme.surfaceDark,
+                    onRefresh: () async {
+                      await Future.delayed(const Duration(seconds: 1));
+                      if (!mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text('Bookings updated successfully'),
+                          backgroundColor: AppTheme.neonGreen.withOpacity(0.8),
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        ),
+                      );
+                    },
+                    child: ListView(
+                      children: [
+                        _buildBookingCard(
                         'booking_1',
                         'Home Cleaning',
                         'Sara Ahmed',
@@ -139,6 +154,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
                       
                       const SizedBox(height: 100), // Bottom spacer
                     ],
+                  ),
                   ),
                 ),
               ],

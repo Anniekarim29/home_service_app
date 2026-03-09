@@ -1,0 +1,5 @@
+﻿b693ddf feat(settings): add language selection screen
+cc6da31 Add Clear All button to recent searches
+d31c0aa Add Membership and Gift Card features
+a2f444b feat: add Coupons & Vouchers feature
+455de80 Add Booking Cancellation and App Feedback System features
