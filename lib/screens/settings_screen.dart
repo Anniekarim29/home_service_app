@@ -7,6 +7,7 @@ import 'notification_preferences_screen.dart';
 import 'feedback_screen.dart';
 import 'membership_screen.dart';
 import 'gift_card_screen.dart';
+import 'language_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -112,7 +113,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             Icons.language_outlined,
                             'Language',
                             AppTheme.neonBlue,
-                            () => _showDummyDialog(context, 'Language'),
+                            () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const LanguageScreen()),
+                            ),
                           ),
                         ],
                       ),
