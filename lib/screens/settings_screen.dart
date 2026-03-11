@@ -8,6 +8,7 @@ import 'feedback_screen.dart';
 import 'membership_screen.dart';
 import 'gift_card_screen.dart';
 import 'language_screen.dart';
+import 'privacy_policy_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -129,7 +130,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             Icons.privacy_tip_outlined,
                             'Privacy Policy',
                             AppTheme.neonPurple,
-                            () => _showDummyDialog(context, 'Privacy Policy'),
+                            () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const PrivacyPolicyScreen()),
+                            ),
                           ),
                           _buildSettingsTile(
                             context,
