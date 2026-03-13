@@ -24,6 +24,7 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
+  int _selectedDateIndex = 0;
   int _selectedTimeIndex = 0;
   String _selectedPaymentMethod = 'Credit Card';
   

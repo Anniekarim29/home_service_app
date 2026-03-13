@@ -91,7 +91,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                                   size: 45,
                                 ).animate(target: index < _rating ? 1 : 0)
                                 .scale(duration: 200.ms, begin: const Offset(1, 1), end: const Offset(1.2, 1.2))
-                                .shimmer(duration: 1000.ms, color: Colors.white54, isEnabled: index < _rating),
+                                .shimmer(duration: 1000.ms, color: Colors.white54),
                               ),
                             );
                           }),

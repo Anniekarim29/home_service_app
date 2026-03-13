@@ -9,6 +9,7 @@ import 'saved_addresses_screen.dart';
 import 'service_analytics_screen.dart';
 import 'referral_screen.dart';
 import 'coupons_screen.dart';
+import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -136,7 +137,15 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      _buildSettingsTile(Icons.person_outline, 'Edit Profile', AppTheme.neonBlue),
+                      _buildSettingsTile(
+                        Icons.person_outline, 
+                        'Edit Profile', 
+                        AppTheme.neonBlue,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const EditProfileScreen()),
+                        ),
+                      ),
                       const SizedBox(height: 20),
                       _buildSettingsTile(
                         Icons.analytics_outlined,
