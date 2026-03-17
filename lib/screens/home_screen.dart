@@ -11,6 +11,8 @@ import '../services/favorites_manager.dart';
 import '../widgets/premium_background.dart';
 import 'tracking_screen.dart';
 import '../widgets/promo_carousel.dart';
+import '../widgets/upcoming_booking_card.dart';
+import 'bookings_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -316,6 +318,69 @@ class HomeScreen extends StatelessWidget {
                     .animate()
                     .fadeIn(delay: 300.ms)
                     .slideY(begin: 0.2),
+
+                const SizedBox(height: 25),
+
+                // === UPCOMING: Quick Access Bookings ===
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Upcoming Bookings',
+                      style: AppTheme.displayMedium.copyWith(
+                        fontSize: 22,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const BookingsScreen()),
+                      ),
+                      child: Text(
+                        'See all',
+                        style: AppTheme.bodyMedium.copyWith(
+                          color: AppTheme.neonBlue,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ).animate().fadeIn(delay: 350.ms),
+
+                const SizedBox(height: 15),
+
+                SizedBox(
+                  height: 160,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      UpcomingBookingCard(
+                        serviceName: 'Plumbing Repair',
+                        providerName: 'Ali Hassan',
+                        dateTime: 'Tomorrow, 2:00 PM',
+                        icon: Icons.plumbing,
+                        themeColor: AppTheme.neonBlue,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const BookingsScreen()),
+                        ),
+                      ),
+                      UpcomingBookingCard(
+                        serviceName: 'AC Service',
+                        providerName: 'Usman Gondal',
+                        dateTime: 'Dec 12, 11:30 AM',
+                        icon: Icons.ac_unit,
+                        themeColor: AppTheme.goldAccent,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const BookingsScreen()),
+                        ),
+                      ),
+                    ],
+                  ),
+                ).animate().fadeIn(delay: 400.ms).slideX(begin: 0.1),
 
                 const SizedBox(height: 30),
 
