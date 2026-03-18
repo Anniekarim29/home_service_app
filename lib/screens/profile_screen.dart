@@ -10,6 +10,7 @@ import 'service_analytics_screen.dart';
 import 'referral_screen.dart';
 import 'coupons_screen.dart';
 import 'edit_profile_screen.dart';
+import 'tips_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -208,6 +209,16 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       _buildSettingsTile(Icons.security_outlined, 'Security', AppTheme.neonGreen),
+                      const SizedBox(height: 20),
+                      _buildSettingsTile(
+                        Icons.lightbulb_outline,
+                        'Home Tips',
+                        Colors.orangeAccent,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const TipsScreen()),
+                        ),
+                      ),
                       const SizedBox(height: 20),
                       _buildSettingsTile(
                         Icons.help_outline,
