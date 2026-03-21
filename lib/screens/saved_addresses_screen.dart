@@ -2,9 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_theme.dart';
 import '../widgets/premium_background.dart';
+import 'add_address_screen.dart';
 
-class SavedAddressesScreen extends StatelessWidget {
+class SavedAddressesScreen extends StatefulWidget {
   const SavedAddressesScreen({super.key});
+
+  @override
+  State<SavedAddressesScreen> createState() => _SavedAddressesScreenState();
+}
+
+class _SavedAddressesScreenState extends State<SavedAddressesScreen> {
+  final List<Map<String, dynamic>> _addresses = [
+    {
+      'label': 'Home',
+      'line1': '123 Main Street, Apt 4B',
+      'line2': 'New York, NY 10001',
+      'icon': Icons.home_outlined,
+      'color': AppTheme.neonBlue,
+      'isDefault': true,
+    },
+    {
+      'label': 'Office',
+      'line1': '456 Business Blvd, Suite 200',
+      'line2': 'New York, NY 10002',
+      'icon': Icons.work_outline,
+      'color': AppTheme.neonPurple,
+      'isDefault': false,
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -50,34 +75,47 @@ class SavedAddressesScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     children: [
-                      _buildAddressCard(
-                        'Home',
-                        '123 Main Street, Apt 4B',
-                        'New York, NY 10001',
-                        Icons.home_outlined,
-                        AppTheme.neonBlue,
-                        isDefault: true,
-                      ).animate().fadeIn(delay: 100.ms).slideY(begin: 0.1),
-                      
-                      const SizedBox(height: 16),
-                      
-                      _buildAddressCard(
-                        'Office',
-                        '456 Business Blvd, Suite 200',
-                        'New York, NY 10002',
-                        Icons.work_outline,
-                        AppTheme.neonPurple,
-                      ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.1),
+                      ..._addresses.asMap().entries.map((entry) {
+                        final index = entry.key;
+                        final address = entry.value;
+                        return Column(
+                          children: [
+                            _buildAddressCard(
+                              address['label'],
+                              address['line1'],
+                              address['line2'],
+                              address['icon'],
+                              address['color'],
+                              isDefault: address['isDefault'],
+                            ).animate().fadeIn(delay: (100 + index * 100).ms).slideY(begin: 0.1),
+                            const SizedBox(height: 16),
+                          ],
+                        );
+                      }),
 
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 14),
 
                       // Add New Address Button
                       GestureDetector(
-                        onTap: () {
-                          // TODO: Implement add address functionality
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Add Address feature coming soon!')),
+                        onTap: () async {
+                          final newAddress = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const AddAddressScreen(),
+                            ),
                           );
+                          
+                          if (newAddress != null) {
+                            setState(() {
+                              _addresses.add(newAddress);
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('${newAddress['label']} Address Added successfully!'),
+                                backgroundColor: AppTheme.neonGreen.withOpacity(0.8),
+                              ),
+                            );
+                          }
                         },
                         child: Container(
                           width: double.infinity,
@@ -104,7 +142,7 @@ class SavedAddressesScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                      ).animate().fadeIn(delay: 300.ms),
+                      ).animate().fadeIn(delay: (_addresses.length * 100 + 100).ms),
                     ],
                   ),
                 ),
