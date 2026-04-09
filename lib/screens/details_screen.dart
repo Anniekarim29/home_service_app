@@ -470,7 +470,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         shadowColor: AppTheme.primaryColor.withOpacity(0.4),
                       ),
                       child: const Text(
-                        'Book Now',
+                        'Book Service',
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
