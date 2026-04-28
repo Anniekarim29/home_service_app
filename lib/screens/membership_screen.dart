@@ -85,6 +85,8 @@ class MembershipScreen extends StatelessWidget {
                       _buildBenefitItem(Icons.discount_outlined, '10% off all services', 600),
                       const SizedBox(height: 20),
                       _buildBenefitItem(Icons.support_agent_outlined, '24/7 dedicated support', 700),
+                      const SizedBox(height: 20),
+                      _buildBenefitItem(Icons.new_releases_outlined, 'Early access to new services', 800),
                       
                       const SizedBox(height: 50),
                       
