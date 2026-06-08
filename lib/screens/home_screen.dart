@@ -13,6 +13,7 @@ import 'tracking_screen.dart';
 import '../widgets/promo_carousel.dart';
 import '../widgets/upcoming_booking_card.dart';
 import 'bookings_screen.dart';
+import '../widgets/daily_tip_banner.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -219,6 +220,7 @@ class HomeScreen extends StatelessWidget {
                     .slideX(begin: -0.2)
                     .scale(begin: const Offset(0.9, 0.9)),
 
+                const DailyTipBanner(),
                 const SizedBox(height: 25),
 
                 // === SEARCH: Premium Search Bar ===
