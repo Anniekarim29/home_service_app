@@ -12,6 +12,7 @@ import 'coupons_screen.dart';
 import 'edit_profile_screen.dart';
 import 'tips_screen.dart';
 import 'security_screen.dart';
+import 'membership_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -100,7 +101,7 @@ class ProfileScreen extends StatelessWidget {
                 
                 // Name with Bold Font
                 Text(
-                  'Annie',
+                  'Annie Karim',
                   style: AppTheme.displayMedium.copyWith(
                     color: Colors.white,
                     fontSize: 26,
@@ -120,7 +121,107 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ).animate().fadeIn(delay: 300.ms),
                 
-                const SizedBox(height: 40),
+                // Prime Membership Card
+                GestureDetector(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MembershipScreen()),
+                  ),
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 25),
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          AppTheme.goldAccent.withOpacity(0.15),
+                          AppTheme.goldAccent.withOpacity(0.05),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(24),
+                      border: Border.all(
+                        color: AppTheme.goldAccent.withOpacity(0.4),
+                        width: 1.5,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppTheme.goldAccent.withOpacity(0.1),
+                          blurRadius: 20,
+                          offset: const Offset(0, 10),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: AppTheme.goldAccent.withOpacity(0.2),
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppTheme.goldAccent.withOpacity(0.3),
+                                blurRadius: 10,
+                              ),
+                            ],
+                          ),
+                          child: const Icon(
+                            Icons.workspace_premium,
+                            color: AppTheme.goldAccent,
+                            size: 28,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Prime Member',
+                                style: AppTheme.displayMedium.copyWith(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                'Active subscription since Dec 2025',
+                                style: AppTheme.bodySmall.copyWith(
+                                  color: Colors.white70,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppTheme.goldAccent.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: AppTheme.goldAccent.withOpacity(0.5),
+                            ),
+                          ),
+                          child: Text(
+                            'Manage',
+                            style: AppTheme.bodySmall.copyWith(
+                              color: AppTheme.goldAccent,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ).animate().fadeIn(delay: 350.ms).scale(begin: const Offset(0.9, 0.9)),
+
+                const SizedBox(height: 30),
                 
                 // Settings Container with Dark Theme
                 Container(
