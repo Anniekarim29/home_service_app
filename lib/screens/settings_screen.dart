@@ -9,6 +9,7 @@ import 'membership_screen.dart';
 import 'gift_card_screen.dart';
 import 'language_screen.dart';
 import 'privacy_policy_screen.dart';
+import 'about_app_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -143,6 +144,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             () => Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => const HelpCenterScreen()),
+                            ),
+                          ),
+                          _buildSettingsTile(
+                            context,
+                            Icons.info_outline,
+                            'About App',
+                            AppTheme.neonBlue,
+                            () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const AboutAppScreen()),
                             ),
                           ),
                           _buildSettingsTile(
