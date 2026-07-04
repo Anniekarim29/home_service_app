@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_theme.dart';
 import '../widgets/premium_background.dart';
+import '../services/user_service.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -11,9 +12,18 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  final TextEditingController _nameController = TextEditingController(text: 'Annie');
-  final TextEditingController _emailController = TextEditingController(text: 'annie@example.com');
-  final TextEditingController _phoneController = TextEditingController(text: '+1 234 567 8900');
+  late final TextEditingController _nameController;
+  late final TextEditingController _emailController;
+  late final TextEditingController _phoneController;
+
+  @override
+  void initState() {
+    super.initState();
+    final userService = UserService();
+    _nameController = TextEditingController(text: userService.name);
+    _emailController = TextEditingController(text: userService.email);
+    _phoneController = TextEditingController(text: userService.phone);
+  }
 
   @override
   void dispose() {
@@ -138,7 +148,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       // Save Button
                       GestureDetector(
                         onTap: () {
-                          // Save logic here
+                          UserService().updateProfile(
+                            name: _nameController.text.trim(),
+                            email: _emailController.text.trim(),
+                            phone: _phoneController.text.trim(),
+                          );
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Profile updated successfully!'),

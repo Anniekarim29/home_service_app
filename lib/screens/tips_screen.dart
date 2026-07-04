@@ -139,7 +139,7 @@ class TipsScreen extends StatelessWidget {
               children: [
                 Text(
                   tip['title'],
-                  style: AppTheme.displaySmall.copyWith(
+                  style: AppTheme.displayMedium.copyWith(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,

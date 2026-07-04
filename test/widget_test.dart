@@ -1,30 +1,29 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:home_service_app/main.dart';
+import 'package:home_service_app/services/user_service.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  test('UserService Singleton State & Update Test', () {
+    final userService = UserService();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify initial values
+    expect(userService.name, 'Annie Karim');
+    expect(userService.email, 'annie@example.com');
+    expect(userService.phone, '+1 234 567 8900');
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Update values
+    userService.updateProfile(
+      name: 'Jane Doe',
+      email: 'jane@example.com',
+      phone: '+1 987 654 3210',
+    );
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify updated values
+    expect(userService.name, 'Jane Doe');
+    expect(userService.email, 'jane@example.com');
+    expect(userService.phone, '+1 987 654 3210');
+    
+    // Verify singleton behavior
+    final anotherInstance = UserService();
+    expect(anotherInstance.name, 'Jane Doe');
   });
 }

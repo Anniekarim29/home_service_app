@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'dart:ui';
 import '../theme/app_theme.dart';
+import '../services/user_service.dart';
 import 'services_screen.dart';
 import 'details_screen.dart';
 import 'notifications_screen.dart';
@@ -68,13 +69,18 @@ class HomeScreen extends StatelessWidget {
                                 const SizedBox(height: 2),
 
                                 /// ✅ NAME CHANGED HERE
-                                Text(
-                                  'Annie Karim',
-                                  style: AppTheme.displayMedium.copyWith(
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                ListenableBuilder(
+                                  listenable: UserService(),
+                                  builder: (context, child) {
+                                    return Text(
+                                      UserService().name,
+                                      style: AppTheme.displayMedium.copyWith(
+                                        color: Colors.white,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    );
+                                  },
                                 ),
                               ],
                             ),

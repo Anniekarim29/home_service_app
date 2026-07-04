@@ -13,6 +13,7 @@ import 'edit_profile_screen.dart';
 import 'tips_screen.dart';
 import 'security_screen.dart';
 import 'membership_screen.dart';
+import '../services/user_service.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -99,27 +100,32 @@ class ProfileScreen extends StatelessWidget {
                 
                 const SizedBox(height: 20),
                 
-                // Name with Bold Font
-                Text(
-                  'Annie Karim',
-                  style: AppTheme.displayMedium.copyWith(
-                    color: Colors.white,
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ).animate().fadeIn(delay: 200.ms),
-                
-                const SizedBox(height: 8),
-                
-                // Email with Better Contrast
-                // TODO: Fetch user email from authentication service
-                Text(
-                  'annie@example.com',
-                  style: AppTheme.bodyLarge.copyWith(
-                    color: Colors.white70,
-                    fontSize: 15,
-                  ),
-                ).animate().fadeIn(delay: 300.ms),
+                // Name & Email with ListenableBuilder for dynamic updates
+                ListenableBuilder(
+                  listenable: UserService(),
+                  builder: (context, child) {
+                    return Column(
+                      children: [
+                        Text(
+                          UserService().name,
+                          style: AppTheme.displayMedium.copyWith(
+                            color: Colors.white,
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ).animate().fadeIn(delay: 200.ms),
+                        const SizedBox(height: 8),
+                        Text(
+                          UserService().email,
+                          style: AppTheme.bodyLarge.copyWith(
+                            color: Colors.white70,
+                            fontSize: 15,
+                          ),
+                        ).animate().fadeIn(delay: 300.ms),
+                      ],
+                    );
+                  },
+                ),
                 
                 // Prime Membership Card
                 GestureDetector(
