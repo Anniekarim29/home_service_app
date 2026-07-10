@@ -3,8 +3,16 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_theme.dart';
 import '../widgets/premium_background.dart';
 
-class TipsScreen extends StatelessWidget {
+class TipsScreen extends StatefulWidget {
   const TipsScreen({super.key});
+
+  @override
+  State<TipsScreen> createState() => _TipsScreenState();
+}
+
+class _TipsScreenState extends State<TipsScreen> {
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
 
   final List<Map<String, dynamic>> _tips = const [
     {
@@ -38,6 +46,24 @@ class TipsScreen extends StatelessWidget {
       'color': Colors.greenAccent,
     },
   ];
+
+  List<Map<String, dynamic>> get _filteredTips {
+    if (_searchQuery.isEmpty) {
+      return _tips;
+    }
+    return _tips.where((tip) {
+      final title = tip['title'].toString().toLowerCase();
+      final desc = tip['description'].toString().toLowerCase();
+      final query = _searchQuery.toLowerCase();
+      return title.contains(query) || desc.contains(query);
+    }).toList();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,16 +104,80 @@ class TipsScreen extends StatelessWidget {
                 ),
               ).animate().fadeIn().slideX(),
 
+              // Search Bar
+              Padding(
+                padding: const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 16.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppTheme.surfaceDark.withOpacity(0.6),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Colors.white.withOpacity(0.05)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.15),
+                        blurRadius: 10,
+                        offset: const Offset(0, 5),
+                      ),
+                    ],
+                  ),
+                  child: TextField(
+                    controller: _searchController,
+                    onChanged: (value) {
+                      setState(() {
+                        _searchQuery = value;
+                      });
+                    },
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      hintText: 'Search tips...',
+                      hintStyle: TextStyle(color: Colors.white.withOpacity(0.5)),
+                      prefixIcon: Icon(Icons.search, color: Colors.white.withOpacity(0.5)),
+                      suffixIcon: _searchQuery.isNotEmpty
+                          ? IconButton(
+                              icon: const Icon(Icons.clear, color: Colors.white54),
+                              onPressed: () {
+                                _searchController.clear();
+                                setState(() {
+                                  _searchQuery = '';
+                                });
+                              },
+                            )
+                          : null,
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                    ),
+                  ),
+                ),
+              ).animate().fadeIn(delay: 100.ms),
+
               // Tips List
               Expanded(
-                child: ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-                  itemCount: _tips.length,
-                  itemBuilder: (context, index) {
-                    final tip = _tips[index];
-                    return _buildTipCard(tip, index);
-                  },
-                ),
+                child: _filteredTips.isEmpty
+                    ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.lightbulb_outline,
+                              size: 64,
+                              color: Colors.white.withOpacity(0.3),
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'No tips found for "$_searchQuery"',
+                              style: AppTheme.bodyLarge.copyWith(color: Colors.white54),
+                            ),
+                          ],
+                        ).animate().fadeIn(),
+                      )
+                    : ListView.builder(
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                        itemCount: _filteredTips.length,
+                        itemBuilder: (context, index) {
+                          final tip = _filteredTips[index];
+                          return _buildTipCard(tip, index);
+                        },
+                      ),
               ),
             ],
           ),
@@ -98,6 +188,7 @@ class TipsScreen extends StatelessWidget {
 
   Widget _buildTipCard(Map<String, dynamic> tip, int index) {
     return Container(
+      key: ValueKey(tip['title']),
       margin: const EdgeInsets.only(bottom: 20),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -159,6 +250,6 @@ class TipsScreen extends StatelessWidget {
           ),
         ],
       ),
-    ).animate().fadeIn(delay: Duration(milliseconds: 100 * index)).slideY(begin: 0.2);
+    ).animate().fadeIn(delay: Duration(milliseconds: 50 * index)).slideY(begin: 0.1);
   }
 }

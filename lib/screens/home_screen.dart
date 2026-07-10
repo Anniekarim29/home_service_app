@@ -19,6 +19,17 @@ import '../widgets/daily_tip_banner.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
+  String _getGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour < 12) {
+      return 'Good Morning 👋';
+    } else if (hour < 17) {
+      return 'Good Afternoon 👋';
+    } else {
+      return 'Good Evening 👋';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Good Evening 👋',
+                                  _getGreeting(),
                                   style: AppTheme.bodyMedium.copyWith(
                                     color: Colors.white70,
                                     fontSize: 13,
@@ -262,7 +273,7 @@ class HomeScreen extends StatelessWidget {
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(
-                            'Search for services...',
+                            'Search for premium services...',
                             style: AppTheme.bodyMedium.copyWith(
                               color: Colors.white38,
                             ),
