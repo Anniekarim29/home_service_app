@@ -1,13 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import '../services/realtime_chat_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/premium_background.dart';
+import 'chat_detail_screen.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
 
   @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  final RealtimeChatService _chatService = RealtimeChatService();
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _chatService.addListener(_onChatUpdated);
+  }
+
+  @override
+  void dispose() {
+    _chatService.removeListener(_onChatUpdated);
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _onChatUpdated() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  String _formatTime(DateTime? timestamp) {
+    if (timestamp == null) return '';
+    final now = DateTime.now();
+    final diff = now.difference(timestamp);
+
+    if (diff.inMinutes < 60) {
+      return '${diff.inMinutes}m ago';
+    } else if (diff.inHours < 24) {
+      return '${diff.inHours}h ago';
+    } else if (diff.inDays == 1) {
+      return 'Yesterday';
+    } else {
+      return '${diff.inDays}d ago';
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final allThreads = _chatService.threads;
+    final filteredThreads = allThreads.where((thread) {
+      if (_searchQuery.isEmpty) return true;
+      final q = _searchQuery.toLowerCase();
+      final nameMatches = thread.participantName.toLowerCase().contains(q);
+      final msgMatches = thread.lastMessage?.content.toLowerCase().contains(q) ?? false;
+      return nameMatches || msgMatches;
+    }).toList();
+
     return Scaffold(
       backgroundColor: AppTheme.backgroundDark,
       body: PremiumBackground(
@@ -64,6 +119,12 @@ class ChatScreen extends StatelessWidget {
                     ],
                   ),
                   child: TextField(
+                    controller: _searchController,
+                    onChanged: (val) {
+                      setState(() {
+                        _searchQuery = val.trim();
+                      });
+                    },
                     style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       hintText: 'Search conversations...',
@@ -78,69 +139,38 @@ class ChatScreen extends StatelessWidget {
 
                 // Chat List
                 Expanded(
-                  child: ListView(
-                    children: [
-                      _buildChatTile(
-                        'Support Team',
-                        'Your booking has been confirmed! 🎉',
-                        '2m ago',
-                        true,
-                        AppTheme.neonBlue,
-                        3,
-                        true,
-                      ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.1),
-                      
-                      const SizedBox(height: 15),
-                      
-                      _buildChatTile(
-                        'Sara Ahmed',
-                        'I will be there in 10 minutes. See you soon!',
-                        '1h ago',
-                        true,
-                        AppTheme.neonGreen,
-                        1,
-                        true,
-                      ).animate().fadeIn(delay: 300.ms).slideY(begin: 0.1),
-                      
-                      const SizedBox(height: 15),
-                      
-                      _buildChatTile(
-                        'Ali Hassan',
-                        'The plumbing work is completed. Thank you!',
-                        '3h ago',
-                        false,
-                        AppTheme.neonPurple,
-                        0,
-                        false,
-                      ).animate().fadeIn(delay: 400.ms).slideY(begin: 0.1),
-                      
-                      const SizedBox(height: 15),
-                      
-                      _buildChatTile(
-                        'Usman Gondal',
-                        'I\'ll bring all the necessary equipment.',
-                        'Yesterday',
-                        false,
-                        AppTheme.goldAccent,
-                        0,
-                        false,
-                      ).animate().fadeIn(delay: 500.ms).slideY(begin: 0.1),
-                      
-                      const SizedBox(height: 15),
-                      
-                      _buildChatTile(
-                        'Bilal Khan',
-                        'Thanks for the 5-star review! 😊',
-                        '2 days ago',
-                        false,
-                        Colors.tealAccent,
-                        0,
-                        false,
-                      ).animate().fadeIn(delay: 600.ms).slideY(begin: 0.1),
-                      
-                      const SizedBox(height: 100), // Bottom spacer
-                    ],
-                  ),
+                  child: filteredThreads.isEmpty
+                      ? Center(
+                          child: Text(
+                            'No conversations found',
+                            style: AppTheme.bodyLarge.copyWith(color: Colors.white54),
+                          ),
+                        )
+                      : ListView.separated(
+                          itemCount: filteredThreads.length,
+                          separatorBuilder: (_, __) => const SizedBox(height: 15),
+                          itemBuilder: (context, index) {
+                            final thread = filteredThreads[index];
+                            final lastMsg = thread.lastMessage;
+                            final hasUnread = thread.unreadCount > 0;
+                            final timeText = _formatTime(lastMsg?.timestamp);
+
+                            return _buildChatTile(
+                              context,
+                              thread.id,
+                              thread.participantName,
+                              thread.isTyping
+                                  ? '${thread.participantName.split(' ')[0]} is typing...'
+                                  : (lastMsg?.content ?? 'No messages yet'),
+                              timeText,
+                              hasUnread,
+                              thread.avatarColor,
+                              thread.unreadCount,
+                              thread.isOnline,
+                              thread.isTyping,
+                            ).animate().fadeIn(delay: (200 + index * 100).ms).slideY(begin: 0.1);
+                          },
+                        ),
                 ),
               ],
             ),
@@ -151,6 +181,8 @@ class ChatScreen extends StatelessWidget {
   }
 
   Widget _buildChatTile(
+    BuildContext context,
+    String threadId,
     String name,
     String message,
     String time,
@@ -158,162 +190,175 @@ class ChatScreen extends StatelessWidget {
     Color avatarColor,
     int unreadCount,
     bool isOnline,
+    bool isTyping,
   ) {
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: AppTheme.surfaceDark,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(
-          color: hasUnread 
-              ? avatarColor.withOpacity(0.3) 
-              : Colors.white.withOpacity(0.05),
-        ),
-        boxShadow: [
-          BoxShadow(
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChatDetailScreen(threadId: threadId),
+          ),
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          color: AppTheme.surfaceDark,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(
             color: hasUnread 
-                ? avatarColor.withOpacity(0.15) 
-                : Colors.black.withOpacity(0.2),
-            blurRadius: 15,
-            offset: const Offset(0, 5),
+                ? avatarColor.withOpacity(0.3) 
+                : Colors.white.withOpacity(0.05),
           ),
-        ],
-      ),
-      child: Row(
-        children: [
-          // Avatar with Online Status
-          Stack(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(3),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: hasUnread 
-                      ? LinearGradient(colors: [avatarColor, avatarColor.withOpacity(0.6)])
-                      : null,
-                  border: Border.all(
-                    color: hasUnread ? avatarColor : Colors.white.withOpacity(0.2),
-                    width: 2,
-                  ),
-                ),
-                child: CircleAvatar(
-                  radius: 28,
-                  backgroundColor: avatarColor.withOpacity(0.2),
-                  child: Text(
-                    name[0],
-                    style: TextStyle(
-                      color: avatarColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-              ),
-              if (isOnline)
-                Positioned(
-                  right: 2,
-                  bottom: 2,
-                  child: Container(
-                    width: 14,
-                    height: 14,
-                    decoration: BoxDecoration(
-                      color: AppTheme.neonGreen,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: AppTheme.surfaceDark,
-                        width: 2,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppTheme.neonGreen.withOpacity(0.6),
-                          blurRadius: 6,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-            ],
-          ),
-          
-          const SizedBox(width: 16),
-          
-          // Message Content
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          boxShadow: [
+            BoxShadow(
+              color: hasUnread 
+                  ? avatarColor.withOpacity(0.15) 
+                  : Colors.black.withOpacity(0.2),
+              blurRadius: 15,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            // Avatar with Online Status
+            Stack(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        name,
-                        style: AppTheme.bodyLarge.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 17,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                Container(
+                  padding: const EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: hasUnread 
+                        ? LinearGradient(colors: [avatarColor, avatarColor.withOpacity(0.6)])
+                        : null,
+                    border: Border.all(
+                      color: hasUnread ? avatarColor : Colors.white.withOpacity(0.2),
+                      width: 2,
+                    ),
+                  ),
+                  child: CircleAvatar(
+                    radius: 28,
+                    backgroundColor: avatarColor.withOpacity(0.2),
+                    child: Text(
+                      name[0],
+                      style: TextStyle(
+                        color: avatarColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
                       ),
                     ),
-                    Text(
-                      time,
-                      style: AppTheme.bodySmall.copyWith(
-                        color: hasUnread ? avatarColor : Colors.white54,
-                        fontWeight: hasUnread ? FontWeight.bold : FontWeight.normal,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-                const SizedBox(height: 6),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        message,
-                        style: AppTheme.bodyMedium.copyWith(
-                          fontWeight: hasUnread ? FontWeight.w600 : FontWeight.normal,
-                          color: hasUnread ? Colors.white : Colors.white60,
-                          fontSize: 14,
+                if (isOnline)
+                  Positioned(
+                    right: 2,
+                    bottom: 2,
+                    child: Container(
+                      width: 14,
+                      height: 14,
+                      decoration: BoxDecoration(
+                        color: AppTheme.neonGreen,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: AppTheme.surfaceDark,
+                          width: 2,
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppTheme.neonGreen.withOpacity(0.6),
+                            blurRadius: 6,
+                          ),
+                        ],
                       ),
                     ),
-                    if (unreadCount > 0) ...[
-                      const SizedBox(width: 8),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [avatarColor, avatarColor.withOpacity(0.7)],
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: avatarColor.withOpacity(0.4),
-                              blurRadius: 8,
-                            ),
-                          ],
-                        ),
+                  ),
+              ],
+            ),
+            
+            const SizedBox(width: 16),
+            
+            // Message Content
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
                         child: Text(
-                          unreadCount.toString(),
-                          style: const TextStyle(
-                            color: Colors.white,
+                          name,
+                          style: AppTheme.bodyLarge.copyWith(
                             fontWeight: FontWeight.bold,
-                            fontSize: 11,
+                            color: Colors.white,
+                            fontSize: 17,
                           ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Text(
+                        time,
+                        style: AppTheme.bodySmall.copyWith(
+                          color: hasUnread ? avatarColor : Colors.white54,
+                          fontWeight: hasUnread ? FontWeight.bold : FontWeight.normal,
+                          fontSize: 12,
                         ),
                       ),
                     ],
-                  ],
-                ),
-              ],
+                  ),
+                  const SizedBox(height: 6),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          message,
+                          style: AppTheme.bodyMedium.copyWith(
+                            fontWeight: (hasUnread || isTyping) ? FontWeight.w600 : FontWeight.normal,
+                            color: isTyping
+                                ? AppTheme.neonGreen
+                                : (hasUnread ? Colors.white : Colors.white60),
+                            fontSize: 14,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      if (unreadCount > 0) ...[
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [avatarColor, avatarColor.withOpacity(0.7)],
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: avatarColor.withOpacity(0.4),
+                                blurRadius: 8,
+                              ),
+                            ],
+                          ),
+                          child: Text(
+                            unreadCount.toString(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 11,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
